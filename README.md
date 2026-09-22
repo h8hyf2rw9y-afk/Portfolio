@@ -24,4 +24,4 @@ Present verified experience and selected projects for three related career track
 
 ## Site source
 
-The current website is a self-contained responsive page in `dist/index.html`.
+The GitHub repository serves a self-contained responsive page from `index.html`. The deployed Sites build keeps the same page in `dist/index.html`.
