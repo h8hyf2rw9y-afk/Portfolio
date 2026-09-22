@@ -1,27 +1,41 @@
 # Emiliano González Romo — Portfolio
 
-Source for Emiliano's professional portfolio.
+Professional portfolio for Sales/GTM, Solutions & Applied AI, and Business Operations opportunities.
 
-## Purpose
+## Local development
 
-Present verified experience and selected projects for three related career tracks:
+Requirements: Node.js 20.19+.
 
-- Sales / GTM
-- Solutions / Applied AI
-- Business / Operations
+```bash
+git pull origin main
+npm install
+npm run dev
+```
 
-## Content rules
+Open the local URL printed by Vite.
 
-- Do not publish private source code or confidential client information.
-- Describe private projects through sanitized case studies and approved screenshots.
-- Keep claims, metrics, technologies, and responsibilities verifiable.
-- Use the primary GitHub account for repository ownership and the secondary account only for attribution to relevant work.
+## Production build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Project structure
+
+- `src/App.tsx` — content and interface
+- `src/styles.css` — visual system and responsive layout
+- `SECURITY.md` — privacy and security rules
+- `.env.example` — safe environment-variable template
+
+## Privacy rules
+
+- Never commit personal email addresses, phone numbers, home addresses, private client data, credentials, or API keys.
+- The displayed email is intentionally masked.
+- The real contact address must remain in server-side configuration.
+- Private projects should be presented as sanitized case studies, without source code or confidential data.
 
 ## Accounts
 
 - Primary: https://github.com/h8hyf2rw9y-afk
 - Secondary: https://github.com/MasterZendika
-
-## Site source
-
-The GitHub repository serves a self-contained responsive page from `index.html`. The deployed Sites build keeps the same page in `dist/index.html`.
