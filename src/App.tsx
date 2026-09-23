@@ -1,263 +1,97 @@
-import { useEffect, useState } from "react";
-import { ArrowUpRight, BriefcaseBusiness, Github, Home, Mail, Moon, PanelsTopLeft, Sun, X } from "lucide-react";
-import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, BriefcaseBusiness, ChevronDown, Github, Home, Languages, Mail, Moon, PanelsTopLeft, Sun, X } from "lucide-react";
 import "./styles.css";
 
-const projects = [
+type Language = "en" | "es";
+type Localized = { en: string; es: string };
+type Project = {
+  label: Localized; title: string; description: Localized; inspiration: Localized;
+  stack: string; tone: "violet" | "cyan"; problem: Localized; solution: Localized;
+  contribution: Localized; highlights: { en: string[]; es: string[] }; status: Localized;
+};
+const l = (en: string, es: string): Localized => ({ en, es });
+
+const projects: Project[] = [
   {
-    label: "AI-first CRM · In development",
-    title: "State AI / PropPilot",
-    description: "A real-estate CRM that connects leads, properties, appointments, opportunities, and AI recommendations through shared context.",
-    inspiration: "I was inspired by seeing how easily an agent loses context when clients, properties, appointments, and follow-ups live in separate places.",
-    stack: "FastAPI · PostgreSQL · Supabase · React · AI agents",
-    tone: "violet",
-    problem: "Real-estate teams lose context across leads, properties, appointments, follow-ups, and transactions.",
-    solution: "A shared operating layer where CRM records and AI recommendations use the same customer and pipeline context.",
-    contribution: "Product definition, domain modeling, backend architecture, API design, authentication flows, and AI-agent foundations.",
-    highlights: ["FastAPI service architecture", "Supabase authentication", "Opportunity pipeline", "Buyer requirements and matching", "AI recommendations with human control"],
-    status: "Active development",
+    label:l("AI-first CRM · In development","CRM AI-first · En desarrollo"), title:"State AI / PropPilot",
+    description:l("A real-estate CRM connecting leads, properties, appointments, opportunities, and AI recommendations through shared context.","Un CRM inmobiliario que conecta prospectos, propiedades, citas, oportunidades y recomendaciones de IA mediante contexto compartido."),
+    inspiration:l("I was inspired by seeing how easily an agent loses context when clients, properties, appointments, and follow-ups live in separate places.","Me inspiró ver lo fácil que un asesor pierde contexto cuando clientes, propiedades, citas y seguimientos viven en lugares separados."),
+    stack:"FastAPI · PostgreSQL · Supabase · React · AI agents", tone:"violet",
+    problem:l("Real-estate teams lose context across leads, properties, appointments, follow-ups, and transactions.","Los equipos inmobiliarios pierden contexto entre prospectos, propiedades, citas, seguimientos y operaciones."),
+    solution:l("A shared operating layer where CRM records and AI recommendations use the same customer and pipeline context.","Una capa operativa compartida donde los registros del CRM y las recomendaciones de IA usan el mismo contexto."),
+    contribution:l("Product definition, domain modeling, backend architecture, API design, authentication flows, and AI-agent foundations.","Definición de producto, modelado de dominio, arquitectura backend, APIs, autenticación y bases de agentes de IA."),
+    highlights:{en:["FastAPI architecture","Supabase authentication","Opportunity pipeline","Buyer matching","Human-controlled AI"],es:["Arquitectura FastAPI","Autenticación Supabase","Pipeline de oportunidades","Matching de compradores","IA bajo control humano"]},
+    status:l("Active development","Desarrollo activo")
   },
   {
-    label: "Operations system",
-    title: "Crestify",
-    description: "A workspace for owners, buyers, documents, urgent follow-ups, property visits, and closings.",
-    inspiration: "I created it from my own need to organize daily real-estate work and know exactly what required attention next.",
-    stack: "CRM design · Process mapping · Real-estate operations",
-    tone: "cyan",
-    problem: "Property information, client follow-up, documentation, and next actions were fragmented across separate tools.",
-    solution: "A centralized workspace for daily priorities, owners, buyers, documents, visits, tasks, and closings.",
-    contribution: "Workflow research, information architecture, CRM structure, pipeline design, and operational use in real-estate work.",
-    highlights: ["Lead and property organization", "Urgent follow-up dashboard", "Task and visit tracking", "Document control", "Closing pipeline"],
-    status: "Operational case study",
+    label:l("Operations system","Sistema de operaciones"), title:"Crestify",
+    description:l("A workspace for owners, buyers, documents, urgent follow-ups, property visits, and closings.","Un espacio de trabajo para propietarios, compradores, documentos, seguimientos urgentes, visitas y cierres."),
+    inspiration:l("I created it from my own need to organize daily real-estate work and know exactly what required attention next.","Lo creé por mi propia necesidad de organizar el trabajo inmobiliario diario y saber exactamente qué requería atención."),
+    stack:"CRM design · Process mapping · Real-estate operations", tone:"cyan",
+    problem:l("Property information, client follow-up, documentation, and next actions were fragmented across separate tools.","La información de propiedades, seguimiento, documentos y próximas acciones estaba fragmentada."),
+    solution:l("A centralized workspace for priorities, clients, documents, visits, tasks, and closings.","Un espacio centralizado para prioridades, clientes, documentos, visitas, tareas y cierres."),
+    contribution:l("Workflow research, information architecture, CRM structure, pipeline design, and operational use.","Investigación de flujos, arquitectura de información, estructura CRM, diseño de pipeline y uso operativo."),
+    highlights:{en:["Lead organization","Urgent follow-up","Task tracking","Document control","Closing pipeline"],es:["Organización de prospectos","Seguimiento urgente","Control de tareas","Control documental","Pipeline de cierres"]},
+    status:l("Operational case study","Caso de estudio operativo")
   },
-  {
-    label: "Layout demo · Concept",
-    title: "Lead Signal",
-    description: "A lightweight qualification workspace that turns fragmented inbound signals into a prioritized lead queue.",
-    inspiration: "Inspired by the difficulty of deciding which lead deserves attention first when every inquiry appears urgent.",
-    stack: "Product design · Lead scoring · CRM workflows",
-    tone: "violet",
-    problem: "Teams spend time reviewing leads without a consistent way to identify urgency or potential.",
-    solution: "A focused queue that explains priority and recommends the next action.",
-    contribution: "Concept definition, workflow mapping, interface design, and prioritization logic.",
-    highlights: ["Lead prioritization", "Explainable scores", "Next-best actions", "CRM context", "Follow-up queue"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Showing Brief",
-    description: "A mobile-ready property briefing that gives an advisor the essential client and property context before a visit.",
-    inspiration: "Inspired by the need to prepare quickly before moving from one property appointment to another.",
-    stack: "Mobile UX · Property data · Client context",
-    tone: "cyan",
-    problem: "Important requirements and property details are often scattered immediately before a showing.",
-    solution: "A concise brief with requirements, property facts, questions, and visit objectives.",
-    contribution: "Concept design, content hierarchy, and mobile interaction planning.",
-    highlights: ["Visit preparation", "Client requirements", "Property summary", "Question prompts", "Mobile-first view"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Pipeline Pulse",
-    description: "A weekly operating view that highlights stalled opportunities, overdue actions, and pipeline movement.",
-    inspiration: "Inspired by the challenge of understanding pipeline health without opening every individual record.",
-    stack: "Analytics · Sales operations · Dashboard design",
-    tone: "violet",
-    problem: "Pipeline reports show totals but often hide where work is becoming stuck.",
-    solution: "A visual pulse that connects movement, inactivity, risk, and owner actions.",
-    contribution: "Metric definition, information architecture, and dashboard concept.",
-    highlights: ["Stage movement", "Stalled deals", "Overdue actions", "Weekly trends", "Owner visibility"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Client Handoff",
-    description: "A structured handoff workspace for transferring customer context between sales, implementation, and support.",
-    inspiration: "Inspired by how customer expectations can disappear when responsibility moves between teams.",
-    stack: "Customer operations · Documentation · Automation",
-    tone: "cyan",
-    problem: "Teams repeat discovery and lose key commitments during customer handoffs.",
-    solution: "A shared record of goals, decisions, risks, owners, and next milestones.",
-    contribution: "Workflow concept, role mapping, and structured handoff design.",
-    highlights: ["Shared context", "Ownership", "Milestones", "Risk tracking", "Customer goals"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Deal Room",
-    description: "A secure checklist and document workspace for coordinating the steps leading to a transaction close.",
-    inspiration: "Inspired by the number of people, files, dates, and decisions involved in closing a property transaction.",
-    stack: "Workflow design · Documents · Task coordination",
-    tone: "violet",
-    problem: "Closing tasks and documents can become disconnected across messages and folders.",
-    solution: "A single checklist that shows what is complete, blocked, missing, and owned.",
-    contribution: "Process mapping, checklist design, and permissions concept.",
-    highlights: ["Document status", "Closing checklist", "Owners", "Deadlines", "Audit trail"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Market Lens",
-    description: "A comparative property analysis interface designed to explain pricing decisions clearly to clients.",
-    inspiration: "Inspired by the need to translate market information into a recommendation a client can understand.",
-    stack: "Data visualization · CMA · Decision support",
-    tone: "cyan",
-    problem: "Comparable-property data can overwhelm clients without a clear narrative.",
-    solution: "A guided comparison that connects evidence, adjustments, and pricing scenarios.",
-    contribution: "Concept definition, comparison model, and information design.",
-    highlights: ["Comparable properties", "Price scenarios", "Adjustments", "Client narrative", "Decision support"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Follow-up Studio",
-    description: "A human-controlled assistant for drafting timely follow-ups from CRM context and conversation history.",
-    inspiration: "Inspired by the repetitive work of following up while still needing every message to feel personal.",
-    stack: "Applied AI · Messaging · Human approval",
-    tone: "violet",
-    problem: "Generic automation saves time but can damage trust when it lacks context.",
-    solution: "Context-aware drafts that remain under the advisor's review and control.",
-    contribution: "Agent behavior concept, approval flow, and safety boundaries.",
-    highlights: ["Contextual drafts", "Human approval", "Tone controls", "Follow-up timing", "Activity history"],
-    status: "Layout demonstration",
-  },
-  {
-    label: "Layout demo · Concept",
-    title: "Workday Score",
-    description: "A personal operating dashboard that balances focused work, client activity, learning, and wellbeing.",
-    inspiration: "Inspired by the need to measure progress without treating every day as identical or ignoring external appointments.",
-    stack: "Personal analytics · Habit systems · Dashboard UX",
-    tone: "cyan",
-    problem: "Rigid productivity systems punish necessary schedule changes and hide progress across different areas.",
-    solution: "A flexible score with area-based streaks, tolerances, and weekly reflection.",
-    contribution: "Scoring concept, behavior rules, and experience design.",
-    highlights: ["Daily score", "Area streaks", "Flexible schedules", "Weekly review", "Progress patterns"],
-    status: "Layout demonstration",
-  },
+  ...[
+    ["Lead Signal","Señales de prospectos","A qualification workspace that turns inbound signals into a prioritized queue.","Un espacio de calificación que convierte señales entrantes en una fila priorizada.","Deciding which lead deserves attention first.","Decidir qué prospecto merece atención primero.","Lead scoring · CRM workflows","A consistent way to identify urgency was missing.","Faltaba una forma consistente de identificar urgencia.","An explainable priority and next-action queue.","Una fila explicable de prioridad y próxima acción."],
+    ["Showing Brief","Resumen de visita","A mobile property briefing with essential client and property context.","Un resumen móvil con el contexto esencial del cliente y la propiedad.","Preparing quickly between property appointments.","Prepararse rápidamente entre citas de propiedades.","Mobile UX · Property data","Requirements and details were scattered before showings.","Los requisitos y detalles estaban dispersos antes de las visitas.","A concise brief with facts, questions, and objectives.","Un resumen conciso con datos, preguntas y objetivos."],
+    ["Pipeline Pulse","Pulso del pipeline","A weekly view of stalled opportunities, overdue actions, and movement.","Una vista semanal de oportunidades detenidas, acciones vencidas y movimiento.","Understanding pipeline health without opening every record.","Entender la salud del pipeline sin abrir cada registro.","Analytics · Sales operations","Totals hid where work was becoming stuck.","Los totales ocultaban dónde se detenía el trabajo.","A view connecting movement, inactivity, risk, and actions.","Una vista que conecta movimiento, inactividad, riesgo y acciones."],
+    ["Client Handoff","Entrega de cliente","A structured handoff between sales, implementation, and support.","Una entrega estructurada entre ventas, implementación y soporte.","Preventing customer expectations from disappearing between teams.","Evitar que las expectativas del cliente se pierdan entre equipos.","Customer operations · Automation","Teams repeated discovery and lost commitments.","Los equipos repetían el descubrimiento y perdían compromisos.","A shared record of goals, decisions, risks, and owners.","Un registro compartido de objetivos, decisiones, riesgos y responsables."],
+    ["Deal Room","Sala de operación","A secure checklist and document workspace for transaction closing.","Un espacio seguro de listas y documentos para el cierre de operaciones.","Coordinating people, files, dates, and decisions in a closing.","Coordinar personas, archivos, fechas y decisiones en un cierre.","Documents · Task coordination","Closing work was disconnected across messages and folders.","El trabajo de cierre estaba desconectado entre mensajes y carpetas.","One checklist showing what is complete, blocked, and owned.","Una lista que muestra qué está completo, bloqueado y asignado."],
+    ["Market Lens","Perspectiva de mercado","A comparative property analysis that explains pricing decisions.","Un análisis comparativo que explica decisiones de precio.","Turning market information into a clear client recommendation.","Convertir información de mercado en una recomendación clara.","Data visualization · CMA","Comparable data overwhelmed clients without a narrative.","Los comparables abrumaban al cliente sin una narrativa.","A guided comparison of evidence and pricing scenarios.","Una comparación guiada de evidencia y escenarios de precio."],
+    ["Follow-up Studio","Estudio de seguimiento","A human-controlled assistant for contextual follow-up drafts.","Un asistente bajo control humano para redactar seguimientos con contexto.","Saving time without making messages feel generic.","Ahorrar tiempo sin hacer que los mensajes se sientan genéricos.","Applied AI · Messaging","Generic automation lacked context and trust.","La automatización genérica carecía de contexto y confianza.","Context-aware drafts reviewed by the advisor.","Borradores con contexto revisados por el asesor."],
+    ["Workday Score","Puntaje diario","A dashboard balancing focused work, clients, learning, and wellbeing.","Un tablero que equilibra trabajo enfocado, clientes, aprendizaje y bienestar.","Measuring progress without treating every day as identical.","Medir progreso sin tratar todos los días como idénticos.","Personal analytics · Habit systems","Rigid systems punished necessary schedule changes.","Los sistemas rígidos castigaban cambios necesarios.","Flexible scores, area streaks, and weekly reflection.","Puntajes flexibles, rachas por área y reflexión semanal."]
+  ].map(([title,titleEs,desc,descEs,insp,inspEs,stack,problem,problemEs,solution,solutionEs], index): Project => ({
+    label:l("Layout demo · Concept","Demo de diseño · Concepto"), title,
+    description:l(desc,descEs), inspiration:l(insp,inspEs), stack,
+    tone:index % 2 === 0 ? "violet" : "cyan",
+    problem:l(problem,problemEs), solution:l(solution,solutionEs),
+    contribution:l("Concept definition, workflow mapping, and experience design.","Definición del concepto, mapeo del flujo y diseño de experiencia."),
+    highlights:{en:["Workflow concept","Information design","User context","Clear next actions","Responsive experience"],es:["Concepto de flujo","Diseño de información","Contexto del usuario","Próximas acciones claras","Experiencia adaptable"]},
+    status:l("Layout demonstration","Demostración de diseño")
+  }))
 ];
 
-const capabilities = [
-  "Applied AI", "AI agents", "Business development", "Customer discovery",
-  "CRM workflows", "Pipeline management", "Business analysis",
-  "Process improvement", "FastAPI", "PostgreSQL", "Supabase", "React",
-];
+const copy = {
+  en:{available:"Open to opportunities · Monterrey / Remote",hero:"Computer Science graduate working at the intersection of applied AI, customer problems, and business operations. I turn ambiguous workflows into practical systems people can use.",view:"View selected work",about:"About",aboutTitle:"Technical enough to build. Commercial enough to understand why.",aboutBody:"My work connects software, sales, and operations. I design CRM workflows, explore AI agents that share context and take useful actions, and work directly with leads, properties, follow-up, and customer decisions.",experience:"Experience",value:"Where I create value",realEstate:"Independent Real Estate Advisor",realEstateBody:"Lead qualification, comparative market analysis, pipeline management, property visits, negotiation, and transaction documentation.",selected:"Selected experience",tech:"Technology & business projects",techBody:"Product work connected to State AI, Crestify, Nodoo, Wizeline, Softtek, and Arca Continental. Verified scope and outcomes will be added from the final résumé.",work:"Selected work",workTitle:"Projects built around real workflows",inspired:"What inspired me",explore:"Explore project",skills:"Capabilities",skillsTitle:"What I bring to a team",education:"Education",educationTitle:"Foundation and continuous learning",degree:"B.S. in Computer Science and Technology",graduated:"Graduated 2025",learning:"Professional learning",programs:"Selected programs",contact:"Contact",contactTitle:"Have a customer problem that needs technical and business thinking?",contactBody:"I am exploring Sales/GTM, Solutions & Applied AI, and Business Operations roles.",privateContact:"Private contact",privateBody:"Your message can reach me without exposing my personal address.",coming:"Secure contact coming soon",problem:"Problem",solution:"Solution",contribution:"My contribution",capabilities:"Key capabilities",status:"Status",close:"Close project details",copyright:"Built to show the work behind the résumé.",github:"GitHub"},
+  es:{available:"Disponible para oportunidades · Monterrey / Remoto",hero:"Egresado de Ciencias Computacionales trabajando en la intersección de IA aplicada, problemas del cliente y operaciones. Convierto flujos ambiguos en sistemas prácticos que las personas pueden usar.",view:"Ver proyectos",about:"Sobre mí",aboutTitle:"Con capacidad técnica para construir y visión comercial para entender por qué.",aboutBody:"Mi trabajo conecta software, ventas y operaciones. Diseño flujos de CRM, exploro agentes de IA que comparten contexto y toman acciones útiles, y trabajo directamente con prospectos, propiedades, seguimiento y decisiones del cliente.",experience:"Experiencia",value:"Dónde genero valor",realEstate:"Asesor inmobiliario independiente",realEstateBody:"Calificación de prospectos, análisis comparativo de mercado, gestión de pipeline, visitas, negociación y documentación de operaciones.",selected:"Experiencia seleccionada",tech:"Proyectos de tecnología y negocio",techBody:"Trabajo de producto relacionado con State AI, Crestify, Nodoo, Wizeline, Softtek y Arca Continental. El alcance y los resultados verificados se agregarán desde el CV final.",work:"Trabajo seleccionado",workTitle:"Proyectos construidos alrededor de flujos reales",inspired:"Qué me inspiró",explore:"Explorar proyecto",skills:"Capacidades",skillsTitle:"Lo que aporto a un equipo",education:"Educación",educationTitle:"Base profesional y aprendizaje continuo",degree:"Ingeniería en Tecnologías Computacionales",graduated:"Graduado en 2025",learning:"Aprendizaje profesional",programs:"Programas seleccionados",contact:"Contacto",contactTitle:"¿Tienes un problema de cliente que requiere pensamiento técnico y de negocio?",contactBody:"Estoy explorando puestos en Sales/GTM, Solutions & Applied AI y Business Operations.",privateContact:"Contacto privado",privateBody:"Tu mensaje puede llegarme sin exponer mi dirección personal.",coming:"Contacto seguro próximamente",problem:"Problema",solution:"Solución",contribution:"Mi contribución",capabilities:"Capacidades principales",status:"Estado",close:"Cerrar detalles del proyecto",copyright:"Creado para mostrar el trabajo detrás del currículum.",github:"GitHub"}
+};
 
 export default function App() {
-  const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
-  const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
+  const [dark,setDark]=useState(()=>localStorage.getItem("theme")==="dark");
+  const [language,setLanguage]=useState<Language>(()=>localStorage.getItem("language")==="es"?"es":"en");
+  const [languageOpen,setLanguageOpen]=useState(false);
+  const [selectedProject,setSelectedProject]=useState<Project|null>(null);
+  const languageRef=useRef<HTMLDivElement>(null);
+  const t=copy[language]; const tx=(value:Localized)=>value[language];
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  }, [dark]);
+  useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";localStorage.setItem("theme",dark?"dark":"light")},[dark]);
+  useEffect(()=>{document.documentElement.lang=language;localStorage.setItem("language",language)},[language]);
+  useEffect(()=>{const close=(e:MouseEvent)=>{if(!languageRef.current?.contains(e.target as Node))setLanguageOpen(false)};window.addEventListener("mousedown",close);return()=>window.removeEventListener("mousedown",close)},[]);
+  useEffect(()=>{if(!selectedProject)return;const close=(e:KeyboardEvent)=>{if(e.key==="Escape")setSelectedProject(null)};document.body.classList.add("modal-open");window.addEventListener("keydown",close);return()=>{document.body.classList.remove("modal-open");window.removeEventListener("keydown",close)}},[selectedProject]);
 
-  useEffect(() => {
-    if (!selectedProject) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectedProject(null);
-    };
-    document.body.classList.add("modal-open");
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.classList.remove("modal-open");
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [selectedProject]);
+  const capabilities=language==="en"?["Applied AI","AI agents","Business development","Customer discovery","CRM workflows","Pipeline management","Business analysis","Process improvement","FastAPI","PostgreSQL","Supabase","React"]:["IA aplicada","Agentes de IA","Desarrollo de negocios","Descubrimiento de clientes","Flujos de CRM","Gestión de pipeline","Análisis de negocio","Mejora de procesos","FastAPI","PostgreSQL","Supabase","React"];
 
-  return (
-    <>
-      <main className="shell">
-        <header className="hero" id="home">
-          <div className="availability"><span /> Open to opportunities · Monterrey / Remote</div>
-          <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>
-            Emiliano<br />González Romo
-          </motion.h1>
-          <p className="lede">Computer Science graduate working at the intersection of applied AI, customer problems, and business operations. I turn ambiguous workflows into practical systems people can use.</p>
-          <div className="actions">
-            <a className="button primary" href="#work">View selected work <ArrowUpRight size={16} /></a>
-            <a className="button" href="https://github.com/h8hyf2rw9y-afk" target="_blank" rel="noopener noreferrer">GitHub <Github size={16} /></a>
-          </div>
-        </header>
-
-        <section id="about">
-          <p className="kicker">About</p>
-          <h2>Technical enough to build. Commercial enough to understand why.</h2>
-          <p className="body-copy">My work connects software, sales, and operations. I have designed CRM workflows for real-estate teams, explored AI agents that share context and take useful actions, and worked directly with leads, properties, follow-up, and customer decisions.</p>
-        </section>
-
-        <section id="experience">
-          <p className="kicker">Experience</p><h2>Where I create value</h2>
-          <div className="timeline">
-            <article><time>2025 — Present</time><div><h3>Independent Real Estate Advisor</h3><p>Lead qualification, comparative market analysis, pipeline management, property visits, negotiation, and transaction documentation.</p></div></article>
-            <article><time>Selected experience</time><div><h3>Technology & business projects</h3><p>Product work and experience connected to State AI, Crestify, Nodoo, Wizeline, Softtek, and Arca Continental. Verified scope and outcomes will be added from the final résumé source.</p></div></article>
-          </div>
-        </section>
-
-        <section id="work">
-          <p className="kicker">Selected work</p><h2>Projects built around real workflows</h2>
-          <div className="project-grid">
-            {projects.map((project, index) => (
-              <motion.button type="button" className={`project-card ${project.tone}`} key={project.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }} onClick={() => setSelectedProject(project)} aria-label={`View details for ${project.title}`}>
-                <span className="tag">{project.label}</span>
-                <div><h3>{project.title}</h3><p>{project.description}</p><p className="inspiration-preview"><span>What inspired me</span>{project.inspiration}</p><small>{project.stack}</small><span className="view-project">Explore project <ArrowUpRight size={15} /></span></div>
-              </motion.button>
-            ))}
-          </div>
-        </section>
-
-        <section id="skills">
-          <p className="kicker">Capabilities</p><h2>What I bring to a team</h2>
-          <div className="pills">{capabilities.map(item => <span key={item}>{item}</span>)}</div>
-        </section>
-
-        <section id="education">
-          <p className="kicker">Education</p><h2>Foundation and continuous learning</h2>
-          <div className="timeline">
-            <article><time>Graduated 2025</time><div><h3>B.S. in Computer Science and Technology</h3><p>Tecnológico de Monterrey · Monterrey Campus</p></div></article>
-            <article><time>Professional learning</time><div><h3>Selected programs</h3><p>McKinsey Forward · AWS Cloud Foundations · Dell Setting Up Your Sale · Introduction to Generative AI · Jira · CAPM preparation</p></div></article>
-          </div>
-        </section>
-
-        <section className="contact" id="contact">
-          <p className="kicker">Contact</p>
-          <h2>Have a customer problem that needs technical and business thinking?</h2>
-          <p className="body-copy">I am exploring Sales/GTM, Solutions & Applied AI, and Business Operations roles.</p>
-          <div className="contact-card">
-            <div><span>Private contact</span><strong>em••••••@gmail.com</strong><p>Your message can reach me without exposing my personal address.</p></div>
-            <button type="button" disabled title="Secure contact form is being configured">Secure contact coming soon <Mail size={16} /></button>
-          </div>
-        </section>
-        <footer>© 2026 Emiliano González Romo · Built to show the work behind the résumé.</footer>
-      </main>
-
-      {selectedProject && (
-        <motion.div className="project-overlay" role="presentation" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setSelectedProject(null);
-        }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <motion.section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-title" initial={{ opacity: 0, y: 36, scale: .96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
-            <button className="modal-close" type="button" onClick={() => setSelectedProject(null)} aria-label="Close project details"><X /></button>
-            <span className="tag">{selectedProject.label}</span>
-            <h2 id="project-title">{selectedProject.title}</h2>
-            <p className="modal-intro">{selectedProject.description}</p>
-            <div className="detail-block inspiration-detail"><span>What inspired me</span><p>{selectedProject.inspiration}</p></div>
-            <div className="detail-grid">
-              <div><span>Problem</span><p>{selectedProject.problem}</p></div>
-              <div><span>Solution</span><p>{selectedProject.solution}</p></div>
-            </div>
-            <div className="detail-block"><span>My contribution</span><p>{selectedProject.contribution}</p></div>
-            <div className="detail-block"><span>Key capabilities</span><ul>{selectedProject.highlights.map(item => <li key={item}>{item}</li>)}</ul></div>
-            <div className="modal-footer"><div><span>Status</span><strong>{selectedProject.status}</strong></div><small>{selectedProject.stack}</small></div>
-          </motion.section>
-        </motion.div>
-      )}
-
-      <nav className="dock" aria-label="Portfolio navigation">
-        <a href="#home" aria-label="Home"><Home /></a>
-        <a href="#work" aria-label="Projects"><PanelsTopLeft /></a>
-        <a href="#experience" aria-label="Experience"><BriefcaseBusiness /></a>
-        <a href="#contact" aria-label="Contact"><Mail /></a>
-        <button onClick={() => setDark(value => !value)} aria-label="Toggle color theme">{dark ? <Sun /> : <Moon />}</button>
-      </nav>
-    </>
-  );
+  return <><div className="language-control" ref={languageRef}>
+    <button className="language-trigger" onClick={()=>setLanguageOpen(v=>!v)} aria-expanded={languageOpen} aria-haspopup="listbox"><Languages/><span>{language.toUpperCase()}</span><ChevronDown className={languageOpen?"rotated":""}/></button>
+    <AnimatePresence>{languageOpen&&<motion.div className="language-menu" role="listbox" initial={{opacity:0,y:-8,scale:.96}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-6,scale:.97}} transition={{duration:.18}}>
+      {(["en","es"] as Language[]).map(code=><button key={code} role="option" aria-selected={language===code} className={language===code?"active":""} onClick={()=>{setLanguage(code);setLanguageOpen(false)}}><span>{code==="en"?"English":"Español"}</span><small>{code.toUpperCase()}</small></button>)}
+    </motion.div>}</AnimatePresence>
+  </div>
+  <main className="shell">
+    <header className="hero" id="home"><div className="availability"><span/>{t.available}</div><motion.h1 initial={{opacity:0,y:18}} animate={{opacity:1,y:0}}>Emiliano<br/>González Romo</motion.h1><p className="lede">{t.hero}</p><div className="actions"><a className="button primary" href="#work">{t.view}<ArrowUpRight size={16}/></a><a className="button" href="https://github.com/h8hyf2rw9y-afk" target="_blank" rel="noopener noreferrer">{t.github}<Github size={16}/></a></div></header>
+    <section id="about"><p className="kicker">{t.about}</p><h2>{t.aboutTitle}</h2><p className="body-copy">{t.aboutBody}</p></section>
+    <section id="experience"><p className="kicker">{t.experience}</p><h2>{t.value}</h2><div className="timeline"><article><time>2025 — {language==="en"?"Present":"Actualidad"}</time><div><h3>{t.realEstate}</h3><p>{t.realEstateBody}</p></div></article><article><time>{t.selected}</time><div><h3>{t.tech}</h3><p>{t.techBody}</p></div></article></div></section>
+    <section id="work"><p className="kicker">{t.work}</p><h2>{t.workTitle}</h2><div className="project-grid">{projects.map((project,index)=><motion.button type="button" className={`project-card ${project.tone}`} key={project.title} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:(index%4)*.06}} onClick={()=>setSelectedProject(project)}><span className="tag">{tx(project.label)}</span><div><h3>{project.title}</h3><p>{tx(project.description)}</p><p className="inspiration-preview"><span>{t.inspired}</span>{tx(project.inspiration)}</p><small>{project.stack}</small><span className="view-project">{t.explore}<ArrowUpRight size={15}/></span></div></motion.button>)}</div></section>
+    <section id="skills"><p className="kicker">{t.skills}</p><h2>{t.skillsTitle}</h2><div className="pills">{capabilities.map(item=><span key={item}>{item}</span>)}</div></section>
+    <section id="education"><p className="kicker">{t.education}</p><h2>{t.educationTitle}</h2><div className="timeline"><article><time>{t.graduated}</time><div><h3>{t.degree}</h3><p>Tecnológico de Monterrey · Campus Monterrey</p></div></article><article><time>{t.learning}</time><div><h3>{t.programs}</h3><p>McKinsey Forward · AWS Cloud Foundations · Dell Setting Up Your Sale · Introduction to Generative AI · Jira · CAPM preparation</p></div></article></div></section>
+    <section className="contact" id="contact"><p className="kicker">{t.contact}</p><h2>{t.contactTitle}</h2><p className="body-copy">{t.contactBody}</p><div className="contact-card"><div><span>{t.privateContact}</span><strong>em••••••@gmail.com</strong><p>{t.privateBody}</p></div><button disabled>{t.coming}<Mail size={16}/></button></div></section>
+    <footer>© 2026 Emiliano González Romo · {t.copyright}</footer>
+  </main>
+  <AnimatePresence>{selectedProject&&<motion.div className="project-overlay" onMouseDown={e=>{if(e.target===e.currentTarget)setSelectedProject(null)}} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><motion.section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-title" initial={{opacity:0,y:36,scale:.96}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:24,scale:.97}} transition={{type:"spring",stiffness:280,damping:28}}><button className="modal-close" onClick={()=>setSelectedProject(null)} aria-label={t.close}><X/></button><span className="tag">{tx(selectedProject.label)}</span><h2 id="project-title">{selectedProject.title}</h2><p className="modal-intro">{tx(selectedProject.description)}</p><div className="detail-block inspiration-detail"><span>{t.inspired}</span><p>{tx(selectedProject.inspiration)}</p></div><div className="detail-grid"><div><span>{t.problem}</span><p>{tx(selectedProject.problem)}</p></div><div><span>{t.solution}</span><p>{tx(selectedProject.solution)}</p></div></div><div className="detail-block"><span>{t.contribution}</span><p>{tx(selectedProject.contribution)}</p></div><div className="detail-block"><span>{t.capabilities}</span><ul>{selectedProject.highlights[language].map(item=><li key={item}>{item}</li>)}</ul></div><div className="modal-footer"><div><span>{t.status}</span><strong>{tx(selectedProject.status)}</strong></div><small>{selectedProject.stack}</small></div></motion.section></motion.div>}</AnimatePresence>
+  <nav className="dock" aria-label="Portfolio navigation"><a href="#home" aria-label="Home"><Home/></a><a href="#work" aria-label="Projects"><PanelsTopLeft/></a><a href="#experience" aria-label="Experience"><BriefcaseBusiness/></a><a href="#contact" aria-label="Contact"><Mail/></a><button onClick={()=>setDark(v=>!v)} aria-label="Toggle color theme">{dark?<Sun/>:<Moon/>}</button></nav>
+  </>;
 }
