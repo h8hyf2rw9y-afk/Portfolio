@@ -200,3 +200,14 @@ html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 72%,va
 ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#6254e8,#824fd0);background-clip:padding-box}
 ::-webkit-scrollbar-corner{background:transparent}
 .project-modal{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 65%,transparent) transparent}
+
+/* Stronger purple atmosphere and signature-style entrance */
+.ambient-orb{opacity:.34}
+.orb-one{background:#694cff;opacity:.38}
+.orb-three{background:#a348e8;opacity:.33}
+[data-theme="dark"] .ambient-orb{opacity:.27}
+[data-theme="dark"] .orb-one{opacity:.31}
+[data-theme="dark"] .orb-three{opacity:.26}
+.intro-signature{display:block;padding:10px 18px 16px;font-family:"Segoe Script","Apple Chancery","Snell Roundhand","Brush Script MT",cursive!important;font-size:clamp(3.1rem,8vw,6.4rem)!important;font-weight:500!important;line-height:1.1;letter-spacing:-.06em!important;white-space:nowrap;transform:rotate(-3deg);filter:drop-shadow(0 10px 26px color-mix(in srgb,var(--accent) 18%,transparent))}
+.intro-mark i{width:clamp(130px,22vw,230px);height:2px}
+@media(max-width:820px){.ambient-orb{opacity:.25}.orb-one{opacity:.29}.orb-three{opacity:.23}.intro-signature{font-size:clamp(3rem,16vw,5rem)!important}}
