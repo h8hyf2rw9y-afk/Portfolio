@@ -61,6 +61,7 @@ const copy = {
 };
 
 export default function App() {
+  const [showIntro,setShowIntro]=useState(true);
   const [dark,setDark]=useState(()=>localStorage.getItem("theme")==="dark");
   const [language,setLanguage]=useState<Language>(()=>localStorage.getItem("language")==="es"?"es":"en");
   const [languageOpen,setLanguageOpen]=useState(false);
@@ -68,6 +69,7 @@ export default function App() {
   const languageRef=useRef<HTMLDivElement>(null);
   const t=copy[language]; const tx=(value:Localized)=>value[language];
 
+  useEffect(()=>{const timer=window.setTimeout(()=>setShowIntro(false),1450);return()=>window.clearTimeout(timer)},[]);
   useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";localStorage.setItem("theme",dark?"dark":"light")},[dark]);
   useEffect(()=>{document.documentElement.lang=language;localStorage.setItem("language",language)},[language]);
   useEffect(()=>{const close=(e:MouseEvent)=>{if(!languageRef.current?.contains(e.target as Node))setLanguageOpen(false)};window.addEventListener("mousedown",close);return()=>window.removeEventListener("mousedown",close)},[]);
@@ -75,7 +77,9 @@ export default function App() {
 
   const capabilities=language==="en"?["Applied AI","AI agents","Business development","Customer discovery","CRM workflows","Pipeline management","Business analysis","Process improvement","FastAPI","PostgreSQL","Supabase","React"]:["IA aplicada","Agentes de IA","Desarrollo de negocios","Descubrimiento de clientes","Flujos de CRM","Gestión de pipeline","Análisis de negocio","Mejora de procesos","FastAPI","PostgreSQL","Supabase","React"];
 
-  return <><div className="language-control" ref={languageRef}>
+  return <><div className="ambient-background" aria-hidden="true"><span className="ambient-orb orb-one"/><span className="ambient-orb orb-two"/><span className="ambient-orb orb-three"/><span className="ambient-grid"/></div>
+  <AnimatePresence>{showIntro&&<motion.div className="intro-screen" initial={{opacity:1}} exit={{opacity:0,filter:"blur(8px)"}} transition={{duration:.48,ease:"easeInOut"}} aria-hidden="true"><motion.div className="intro-mark" initial={{opacity:0,scale:.88,y:10}} animate={{opacity:1,scale:1,y:0}} transition={{duration:.48,ease:[.22,1,.36,1]}}><span>EGR</span><motion.i initial={{scaleX:0}} animate={{scaleX:1}} transition={{delay:.28,duration:.7,ease:[.22,1,.36,1]}}/></motion.div></motion.div>}</AnimatePresence>
+  <div className="language-control" ref={languageRef}>
     <button className="language-trigger" onClick={()=>setLanguageOpen(v=>!v)} aria-expanded={languageOpen} aria-haspopup="listbox"><Languages/><span>{language.toUpperCase()}</span><ChevronDown className={languageOpen?"rotated":""}/></button>
     <AnimatePresence>{languageOpen&&<motion.div className="language-menu" role="listbox" initial={{opacity:0,y:-8,scale:.96}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-6,scale:.97}} transition={{duration:.18}}>
       {(["en","es"] as Language[]).map(code=><button key={code} role="option" aria-selected={language===code} className={language===code?"active":""} onClick={()=>{setLanguage(code);setLanguageOpen(false)}}><span>{code==="en"?"English":"Español"}</span><small>{code.toUpperCase()}</small></button>)}
