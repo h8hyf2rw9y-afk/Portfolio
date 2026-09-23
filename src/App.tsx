@@ -1,120 +1,28 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
-import { ArrowUpRight, BriefcaseBusiness, ChevronDown, Github, Home, Languages, Mail, Moon, PanelsTopLeft, Sun, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, BriefcaseBusiness, Github, Home, Mail, Moon, PanelsTopLeft, Sun, X } from "lucide-react";
+import { copy, experiences, projects, type Language, type Localized, type Project } from "./data/content";
+import { AmbientBackground } from "./components/AmbientBackground";
+import { IntroScreen } from "./components/IntroScreen";
+import { LanguageSelector } from "./components/LanguageSelector";
 import "./styles.css";
-
-type Language = "en" | "es";
-type Localized = { en: string; es: string };
-type Project = {
-  label: Localized; title: string; description: Localized; inspiration: Localized;
-  stack: string; tone: "violet" | "cyan"; problem: Localized; solution: Localized;
-  contribution: Localized; highlights: { en: string[]; es: string[] }; status: Localized;
-};
-const l = (en: string, es: string): Localized => ({ en, es });
-
-const projects: Project[] = [
-  {
-    label:l("AI-first CRM · In development","CRM AI-first · En desarrollo"), title:"State AI / PropPilot",
-    description:l("A real-estate CRM connecting leads, properties, appointments, opportunities, and AI recommendations through shared context.","Un CRM inmobiliario que conecta prospectos, propiedades, citas, oportunidades y recomendaciones de IA mediante contexto compartido."),
-    inspiration:l("I was inspired by seeing how easily an agent loses context when clients, properties, appointments, and follow-ups live in separate places.","Me inspiró ver lo fácil que un asesor pierde contexto cuando clientes, propiedades, citas y seguimientos viven en lugares separados."),
-    stack:"FastAPI · PostgreSQL · Supabase · React · AI agents", tone:"violet",
-    problem:l("Real-estate teams lose context across leads, properties, appointments, follow-ups, and transactions.","Los equipos inmobiliarios pierden contexto entre prospectos, propiedades, citas, seguimientos y operaciones."),
-    solution:l("A shared operating layer where CRM records and AI recommendations use the same customer and pipeline context.","Una capa operativa compartida donde los registros del CRM y las recomendaciones de IA usan el mismo contexto."),
-    contribution:l("Product definition, domain modeling, backend architecture, API design, authentication flows, and AI-agent foundations.","Definición de producto, modelado de dominio, arquitectura backend, APIs, autenticación y bases de agentes de IA."),
-    highlights:{en:["FastAPI architecture","Supabase authentication","Opportunity pipeline","Buyer matching","Human-controlled AI"],es:["Arquitectura FastAPI","Autenticación Supabase","Pipeline de oportunidades","Matching de compradores","IA bajo control humano"]},
-    status:l("Active development","Desarrollo activo")
-  },
-  {
-    label:l("Operations system","Sistema de operaciones"), title:"Crestify",
-    description:l("A workspace for owners, buyers, documents, urgent follow-ups, property visits, and closings.","Un espacio de trabajo para propietarios, compradores, documentos, seguimientos urgentes, visitas y cierres."),
-    inspiration:l("I created it from my own need to organize daily real-estate work and know exactly what required attention next.","Lo creé por mi propia necesidad de organizar el trabajo inmobiliario diario y saber exactamente qué requería atención."),
-    stack:"CRM design · Process mapping · Real-estate operations", tone:"cyan",
-    problem:l("Property information, client follow-up, documentation, and next actions were fragmented across separate tools.","La información de propiedades, seguimiento, documentos y próximas acciones estaba fragmentada."),
-    solution:l("A centralized workspace for priorities, clients, documents, visits, tasks, and closings.","Un espacio centralizado para prioridades, clientes, documentos, visitas, tareas y cierres."),
-    contribution:l("Workflow research, information architecture, CRM structure, pipeline design, and operational use.","Investigación de flujos, arquitectura de información, estructura CRM, diseño de pipeline y uso operativo."),
-    highlights:{en:["Lead organization","Urgent follow-up","Task tracking","Document control","Closing pipeline"],es:["Organización de prospectos","Seguimiento urgente","Control de tareas","Control documental","Pipeline de cierres"]},
-    status:l("Operational case study","Caso de estudio operativo")
-  },
-  ...[
-    ["Lead Signal","Señales de prospectos","A qualification workspace that turns inbound signals into a prioritized queue.","Un espacio de calificación que convierte señales entrantes en una fila priorizada.","Deciding which lead deserves attention first.","Decidir qué prospecto merece atención primero.","Lead scoring · CRM workflows","A consistent way to identify urgency was missing.","Faltaba una forma consistente de identificar urgencia.","An explainable priority and next-action queue.","Una fila explicable de prioridad y próxima acción."],
-    ["Showing Brief","Resumen de visita","A mobile property briefing with essential client and property context.","Un resumen móvil con el contexto esencial del cliente y la propiedad.","Preparing quickly between property appointments.","Prepararse rápidamente entre citas de propiedades.","Mobile UX · Property data","Requirements and details were scattered before showings.","Los requisitos y detalles estaban dispersos antes de las visitas.","A concise brief with facts, questions, and objectives.","Un resumen conciso con datos, preguntas y objetivos."],
-    ["Pipeline Pulse","Pulso del pipeline","A weekly view of stalled opportunities, overdue actions, and movement.","Una vista semanal de oportunidades detenidas, acciones vencidas y movimiento.","Understanding pipeline health without opening every record.","Entender la salud del pipeline sin abrir cada registro.","Analytics · Sales operations","Totals hid where work was becoming stuck.","Los totales ocultaban dónde se detenía el trabajo.","A view connecting movement, inactivity, risk, and actions.","Una vista que conecta movimiento, inactividad, riesgo y acciones."],
-    ["Client Handoff","Entrega de cliente","A structured handoff between sales, implementation, and support.","Una entrega estructurada entre ventas, implementación y soporte.","Preventing customer expectations from disappearing between teams.","Evitar que las expectativas del cliente se pierdan entre equipos.","Customer operations · Automation","Teams repeated discovery and lost commitments.","Los equipos repetían el descubrimiento y perdían compromisos.","A shared record of goals, decisions, risks, and owners.","Un registro compartido de objetivos, decisiones, riesgos y responsables."],
-    ["Deal Room","Sala de operación","A secure checklist and document workspace for transaction closing.","Un espacio seguro de listas y documentos para el cierre de operaciones.","Coordinating people, files, dates, and decisions in a closing.","Coordinar personas, archivos, fechas y decisiones en un cierre.","Documents · Task coordination","Closing work was disconnected across messages and folders.","El trabajo de cierre estaba desconectado entre mensajes y carpetas.","One checklist showing what is complete, blocked, and owned.","Una lista que muestra qué está completo, bloqueado y asignado."],
-    ["Market Lens","Perspectiva de mercado","A comparative property analysis that explains pricing decisions.","Un análisis comparativo que explica decisiones de precio.","Turning market information into a clear client recommendation.","Convertir información de mercado en una recomendación clara.","Data visualization · CMA","Comparable data overwhelmed clients without a narrative.","Los comparables abrumaban al cliente sin una narrativa.","A guided comparison of evidence and pricing scenarios.","Una comparación guiada de evidencia y escenarios de precio."],
-    ["Follow-up Studio","Estudio de seguimiento","A human-controlled assistant for contextual follow-up drafts.","Un asistente bajo control humano para redactar seguimientos con contexto.","Saving time without making messages feel generic.","Ahorrar tiempo sin hacer que los mensajes se sientan genéricos.","Applied AI · Messaging","Generic automation lacked context and trust.","La automatización genérica carecía de contexto y confianza.","Context-aware drafts reviewed by the advisor.","Borradores con contexto revisados por el asesor."],
-    ["Workday Score","Puntaje diario","A dashboard balancing focused work, clients, learning, and wellbeing.","Un tablero que equilibra trabajo enfocado, clientes, aprendizaje y bienestar.","Measuring progress without treating every day as identical.","Medir progreso sin tratar todos los días como idénticos.","Personal analytics · Habit systems","Rigid systems punished necessary schedule changes.","Los sistemas rígidos castigaban cambios necesarios.","Flexible scores, area streaks, and weekly reflection.","Puntajes flexibles, rachas por área y reflexión semanal."]
-  ].map(([title,titleEs,desc,descEs,insp,inspEs,stack,problem,problemEs,solution,solutionEs], index): Project => ({
-    label:l("Layout demo · Concept","Demo de diseño · Concepto"), title,
-    description:l(desc,descEs), inspiration:l(insp,inspEs), stack,
-    tone:index % 2 === 0 ? "violet" : "cyan",
-    problem:l(problem,problemEs), solution:l(solution,solutionEs),
-    contribution:l("Concept definition, workflow mapping, and experience design.","Definición del concepto, mapeo del flujo y diseño de experiencia."),
-    highlights:{en:["Workflow concept","Information design","User context","Clear next actions","Responsive experience"],es:["Concepto de flujo","Diseño de información","Contexto del usuario","Próximas acciones claras","Experiencia adaptable"]},
-    status:l("Layout demonstration","Demostración de diseño")
-  }))
-];
-
-type Experience = { period: Localized; role: Localized; summary: Localized; overview: Localized; responsibilities: { en: string[]; es: string[] }; tools: string; };
-
-const experiences: Experience[] = [
-  {
-    period:l("2025 — Present","2025 — Actualidad"),
-    role:l("Independent Real Estate Advisor","Asesor inmobiliario independiente"),
-    summary:l("Lead qualification, market analysis, pipeline management, property visits, negotiation, and transaction documentation.","Calificación de prospectos, análisis de mercado, gestión de pipeline, visitas, negociación y documentación de operaciones."),
-    overview:l("I work directly with buyers, owners, and property opportunities, translating client needs into searches, comparisons, follow-up, and concrete next steps.","Trabajo directamente con compradores, propietarios y oportunidades, convirtiendo necesidades en búsquedas, comparaciones, seguimiento y próximos pasos."),
-    responsibilities:{en:["Qualify buyer and owner needs","Build comparative market analyses","Manage follow-up and opportunity stages","Coordinate property visits","Support negotiation and documentation"],es:["Calificar necesidades de compradores y propietarios","Elaborar análisis comparativos de mercado","Gestionar seguimiento y etapas","Coordinar visitas a propiedades","Apoyar negociación y documentación"]},
-    tools:"CRM · Market analysis · Pipeline management · Client communication"
-  },
-  {
-    period:l("Selected experience","Experiencia seleccionada"),
-    role:l("Technology & Business Projects","Proyectos de tecnología y negocio"),
-    summary:l("Product and technology work connected to State AI, Crestify, Nodoo, Wizeline, Softtek, and Arca Continental.","Trabajo de producto y tecnología relacionado con State AI, Crestify, Nodoo, Wizeline, Softtek y Arca Continental."),
-    overview:l("These experiences connect software delivery, process analysis, product thinking, and communication between technical and business contexts.","Estas experiencias conectan entrega de software, análisis de procesos, pensamiento de producto y comunicación entre contextos técnicos y de negocio."),
-    responsibilities:{en:["Translate business needs into structured requirements","Document workflows and decisions","Collaborate across technical and business contexts","Build and evaluate product concepts","Learn from real operational constraints"],es:["Traducir necesidades de negocio en requisitos estructurados","Documentar flujos y decisiones","Colaborar entre contextos técnicos y de negocio","Construir y evaluar conceptos de producto","Aprender de restricciones operativas reales"]},
-    tools:"Product thinking · Documentation · Software workflows · Business analysis"
-  }
-];
-
-const copy = {
-  en:{available:"Open to opportunities · Monterrey / Remote",hero:"Computer Science graduate working at the intersection of applied AI, customer problems, and business operations. I turn ambiguous workflows into practical systems people can use.",view:"View selected work",about:"About",aboutTitle:"Technical enough to build. Commercial enough to understand why.",aboutBody:"My work connects software, sales, and operations. I design CRM workflows, explore AI agents that share context and take useful actions, and work directly with leads, properties, follow-up, and customer decisions.",experience:"Experience",value:"Where I create value",realEstate:"Independent Real Estate Advisor",realEstateBody:"Lead qualification, comparative market analysis, pipeline management, property visits, negotiation, and transaction documentation.",selected:"Selected experience",tech:"Technology & business projects",techBody:"Product work connected to State AI, Crestify, Nodoo, Wizeline, Softtek, and Arca Continental. Verified scope and outcomes will be added from the final résumé.",work:"Selected work",workTitle:"Projects built around real workflows",inspired:"What inspired me",explore:"Explore project",skills:"Capabilities",skillsTitle:"What I bring to a team",education:"Education",educationTitle:"Foundation and continuous learning",degree:"B.S. in Computer Science and Technology",graduated:"Graduated 2025",learning:"Professional learning",programs:"Selected programs",contact:"Contact",contactTitle:"Have a customer problem that needs technical and business thinking?",contactBody:"I am exploring Sales/GTM, Solutions & Applied AI, and Business Operations roles.",privateContact:"Private contact",privateBody:"Your message can reach me without exposing my personal address.",coming:"Secure contact coming soon",problem:"Problem",solution:"Solution",contribution:"My contribution",capabilities:"Key capabilities",status:"Status",close:"Close project details",copyright:"Built to show the work behind the résumé.",github:"GitHub"},
-  es:{available:"Disponible para oportunidades · Monterrey / Remoto",hero:"Egresado de Ciencias Computacionales trabajando en la intersección de IA aplicada, problemas del cliente y operaciones. Convierto flujos ambiguos en sistemas prácticos que las personas pueden usar.",view:"Ver proyectos",about:"Sobre mí",aboutTitle:"Con capacidad técnica para construir y visión comercial para entender por qué.",aboutBody:"Mi trabajo conecta software, ventas y operaciones. Diseño flujos de CRM, exploro agentes de IA que comparten contexto y toman acciones útiles, y trabajo directamente con prospectos, propiedades, seguimiento y decisiones del cliente.",experience:"Experiencia",value:"Dónde genero valor",realEstate:"Asesor inmobiliario independiente",realEstateBody:"Calificación de prospectos, análisis comparativo de mercado, gestión de pipeline, visitas, negociación y documentación de operaciones.",selected:"Experiencia seleccionada",tech:"Proyectos de tecnología y negocio",techBody:"Trabajo de producto relacionado con State AI, Crestify, Nodoo, Wizeline, Softtek y Arca Continental. El alcance y los resultados verificados se agregarán desde el CV final.",work:"Trabajo seleccionado",workTitle:"Proyectos construidos alrededor de flujos reales",inspired:"Qué me inspiró",explore:"Explorar proyecto",skills:"Capacidades",skillsTitle:"Lo que aporto a un equipo",education:"Educación",educationTitle:"Base profesional y aprendizaje continuo",degree:"Ingeniería en Tecnologías Computacionales",graduated:"Graduado en 2025",learning:"Aprendizaje profesional",programs:"Programas seleccionados",contact:"Contacto",contactTitle:"¿Tienes un problema de cliente que requiere pensamiento técnico y de negocio?",contactBody:"Estoy explorando puestos en Sales/GTM, Solutions & Applied AI y Business Operations.",privateContact:"Contacto privado",privateBody:"Tu mensaje puede llegarme sin exponer mi dirección personal.",coming:"Contacto seguro próximamente",problem:"Problema",solution:"Solución",contribution:"Mi contribución",capabilities:"Capacidades principales",status:"Estado",close:"Cerrar detalles del proyecto",copyright:"Creado para mostrar el trabajo detrás del currículum.",github:"GitHub"}
-};
 
 export default function App() {
   const [showIntro,setShowIntro]=useState(true);
   const [dark,setDark]=useState(()=>localStorage.getItem("theme")==="dark");
   const [language,setLanguage]=useState<Language>(()=>localStorage.getItem("language")==="es"?"es":"en");
-  const [languageOpen,setLanguageOpen]=useState(false);
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   const [experienceOpen,setExperienceOpen]=useState(false);
-  const languageRef=useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const orbOneY = useTransform(scrollYProgress,[0,1],[-80,420]);
-  const orbOneX = useTransform(scrollYProgress,[0,1],[0,-180]);
-  const orbTwoY = useTransform(scrollYProgress,[0,1],[120,-360]);
-  const orbTwoX = useTransform(scrollYProgress,[0,1],[-80,220]);
-  const orbThreeY = useTransform(scrollYProgress,[0,1],[160,-460]);
-  const orbScale = useTransform(scrollYProgress,[0,.5,1],[1,1.28,.92]);
   const t=copy[language]; const tx=(value:Localized)=>value[language];
 
   useEffect(()=>{const timer=window.setTimeout(()=>setShowIntro(false),1450);return()=>window.clearTimeout(timer)},[]);
   useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";localStorage.setItem("theme",dark?"dark":"light")},[dark]);
   useEffect(()=>{document.documentElement.lang=language;localStorage.setItem("language",language)},[language]);
-  useEffect(()=>{const close=(e:MouseEvent)=>{if(!languageRef.current?.contains(e.target as Node))setLanguageOpen(false)};window.addEventListener("mousedown",close);return()=>window.removeEventListener("mousedown",close)},[]);
   useEffect(()=>{if(!selectedProject&&!experienceOpen)return;const close=(e:KeyboardEvent)=>{if(e.key==="Escape"){setSelectedProject(null);setExperienceOpen(false)}};document.body.classList.add("modal-open");window.addEventListener("keydown",close);return()=>{document.body.classList.remove("modal-open");window.removeEventListener("keydown",close)}},[selectedProject,experienceOpen]);
 
   const capabilities=language==="en"?["Applied AI","AI agents","Business development","Customer discovery","CRM workflows","Pipeline management","Business analysis","Process improvement","FastAPI","PostgreSQL","Supabase","React"]:["IA aplicada","Agentes de IA","Desarrollo de negocios","Descubrimiento de clientes","Flujos de CRM","Gestión de pipeline","Análisis de negocio","Mejora de procesos","FastAPI","PostgreSQL","Supabase","React"];
 
-  return <><div className="ambient-background" aria-hidden="true"><motion.span className="ambient-orb orb-one" style={{x:orbOneX,y:orbOneY,scale:orbScale}}/><motion.span className="ambient-orb orb-two" style={{x:orbTwoX,y:orbTwoY,scale:orbScale}}/><motion.span className="ambient-orb orb-three" style={{y:orbThreeY,scale:orbScale}}/><span className="ambient-grid"/></div>
-  <AnimatePresence>{showIntro&&<motion.div className="intro-screen" initial={{opacity:1}} exit={{opacity:0,filter:"blur(8px)"}} transition={{duration:.48,ease:"easeInOut"}} aria-hidden="true"><motion.div className="intro-mark" initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{duration:.4,ease:[.22,1,.36,1]}}><motion.span className="intro-signature" initial={{clipPath:"inset(0 100% 0 0)",opacity:.2}} animate={{clipPath:"inset(0 0% 0 0)",opacity:1}} transition={{delay:.12,duration:.92,ease:[.22,1,.36,1]}}>Emiliano</motion.span><motion.i initial={{scaleX:0,opacity:0}} animate={{scaleX:1,opacity:1}} transition={{delay:.42,duration:.66,ease:[.22,1,.36,1]}}/></motion.div></motion.div>}</AnimatePresence>
-  <div className="language-control" ref={languageRef}>
-    <button className="language-trigger" onClick={()=>setLanguageOpen(v=>!v)} aria-expanded={languageOpen} aria-haspopup="listbox"><Languages/><span>{language.toUpperCase()}</span><ChevronDown className={languageOpen?"rotated":""}/></button>
-    <AnimatePresence>{languageOpen&&<motion.div className="language-menu" role="listbox" initial={{opacity:0,y:-8,scale:.96}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-6,scale:.97}} transition={{duration:.18}}>
-      {(["en","es"] as Language[]).map(code=><button key={code} role="option" aria-selected={language===code} className={language===code?"active":""} onClick={()=>{setLanguage(code);setLanguageOpen(false)}}><span>{code==="en"?"English":"Español"}</span><small>{code.toUpperCase()}</small></button>)}
-    </motion.div>}</AnimatePresence>
-  </div>
-  <main className="shell">
+  return <><AmbientBackground/><IntroScreen visible={showIntro}/><LanguageSelector language={language} onChange={setLanguage}/><main className="shell">
     <header className="hero" id="home"><div className="availability"><span/>{t.available}</div><motion.h1 initial={{opacity:0,y:18}} animate={{opacity:1,y:0}}>Emiliano<br/>González Romo</motion.h1><p className="lede">{t.hero}</p><div className="actions"><a className="button primary" href="#work">{t.view}<ArrowUpRight size={16}/></a><a className="button" href="https://github.com/h8hyf2rw9y-afk" target="_blank" rel="noopener noreferrer">{t.github}<Github size={16}/></a></div></header>
     <section id="about"><p className="kicker">{t.about}</p><h2>{t.aboutTitle}</h2><p className="body-copy">{t.aboutBody}</p></section>
     <section id="experience"><p className="kicker">{t.experience}</p><h2>{t.value}</h2><motion.button type="button" className="experience-card experience-card-complete" onClick={()=>setExperienceOpen(true)} initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true}}><div className="experience-card-header"><span>{language==="en"?"Complete experience":"Experiencia completa"}</span><strong>02</strong></div><div><h3>{language==="en"?"Real estate, technology, and business":"Bienes raíces, tecnología y negocio"}</h3><p>{language==="en"?"Explore my experience across client work, operations, product thinking, and technology projects in one complete view.":"Explora mi experiencia en trabajo con clientes, operaciones, pensamiento de producto y proyectos tecnológicos en una sola vista."}</p><div className="experience-preview-list">{experiences.map(item=><span key={item.role.en}>{tx(item.role)}</span>)}</div><span className="view-project">{language==="en"?"View complete experience":"Ver experiencia completa"}<ArrowUpRight size={15}/></span></div></motion.button></section>
