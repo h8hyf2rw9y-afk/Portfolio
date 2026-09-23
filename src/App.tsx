@@ -8,6 +8,7 @@ const projects = [
     label: "AI-first CRM · In development",
     title: "State AI / PropPilot",
     description: "A real-estate CRM that connects leads, properties, appointments, opportunities, and AI recommendations through shared context.",
+    inspiration: "I was inspired by seeing how easily an agent loses context when clients, properties, appointments, and follow-ups live in separate places.",
     stack: "FastAPI · PostgreSQL · Supabase · React · AI agents",
     tone: "violet",
     problem: "Real-estate teams lose context across leads, properties, appointments, follow-ups, and transactions.",
@@ -20,6 +21,7 @@ const projects = [
     label: "Operations system",
     title: "Crestify",
     description: "A workspace for owners, buyers, documents, urgent follow-ups, property visits, and closings.",
+    inspiration: "I created it from my own need to organize daily real-estate work and know exactly what required attention next.",
     stack: "CRM design · Process mapping · Real-estate operations",
     tone: "cyan",
     problem: "Property information, client follow-up, documentation, and next actions were fragmented across separate tools.",
@@ -93,7 +95,7 @@ export default function App() {
             {projects.map((project, index) => (
               <motion.button type="button" className={`project-card ${project.tone}`} key={project.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }} onClick={() => setSelectedProject(project)} aria-label={`View details for ${project.title}`}>
                 <span className="tag">{project.label}</span>
-                <div><h3>{project.title}</h3><p>{project.description}</p><small>{project.stack}</small><span className="view-project">Explore project <ArrowUpRight size={15} /></span></div>
+                <div><h3>{project.title}</h3><p>{project.description}</p><p className="inspiration-preview"><span>What inspired me</span>{project.inspiration}</p><small>{project.stack}</small><span className="view-project">Explore project <ArrowUpRight size={15} /></span></div>
               </motion.button>
             ))}
           </div>
@@ -133,6 +135,7 @@ export default function App() {
             <span className="tag">{selectedProject.label}</span>
             <h2 id="project-title">{selectedProject.title}</h2>
             <p className="modal-intro">{selectedProject.description}</p>
+            <div className="detail-block inspiration-detail"><span>What inspired me</span><p>{selectedProject.inspiration}</p></div>
             <div className="detail-grid">
               <div><span>Problem</span><p>{selectedProject.problem}</p></div>
               <div><span>Solution</span><p>{selectedProject.solution}</p></div>
