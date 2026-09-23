@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, BriefcaseBusiness, Github, Home, Mail, Moon, PanelsTopLeft, Sun } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, Github, Home, Mail, Moon, PanelsTopLeft, Sun, X } from "lucide-react";
 import { motion } from "motion/react";
 import "./styles.css";
 
@@ -10,6 +10,11 @@ const projects = [
     description: "A real-estate CRM that connects leads, properties, appointments, opportunities, and AI recommendations through shared context.",
     stack: "FastAPI · PostgreSQL · Supabase · React · AI agents",
     tone: "violet",
+    problem: "Real-estate teams lose context across leads, properties, appointments, follow-ups, and transactions.",
+    solution: "A shared operating layer where CRM records and AI recommendations use the same customer and pipeline context.",
+    contribution: "Product definition, domain modeling, backend architecture, API design, authentication flows, and AI-agent foundations.",
+    highlights: ["FastAPI service architecture", "Supabase authentication", "Opportunity pipeline", "Buyer requirements and matching", "AI recommendations with human control"],
+    status: "Active development",
   },
   {
     label: "Operations system",
@@ -17,6 +22,11 @@ const projects = [
     description: "A workspace for owners, buyers, documents, urgent follow-ups, property visits, and closings.",
     stack: "CRM design · Process mapping · Real-estate operations",
     tone: "cyan",
+    problem: "Property information, client follow-up, documentation, and next actions were fragmented across separate tools.",
+    solution: "A centralized workspace for daily priorities, owners, buyers, documents, visits, tasks, and closings.",
+    contribution: "Workflow research, information architecture, CRM structure, pipeline design, and operational use in real-estate work.",
+    highlights: ["Lead and property organization", "Urgent follow-up dashboard", "Task and visit tracking", "Document control", "Closing pipeline"],
+    status: "Operational case study",
   },
 ];
 
@@ -28,11 +38,25 @@ const capabilities = [
 
 export default function App() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
+  const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedProject(null);
+    };
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [selectedProject]);
 
   return (
     <>
@@ -67,10 +91,10 @@ export default function App() {
           <p className="kicker">Selected work</p><h2>Projects built around real workflows</h2>
           <div className="project-grid">
             {projects.map((project, index) => (
-              <motion.article className={`project-card ${project.tone}`} key={project.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }}>
+              <motion.button type="button" className={`project-card ${project.tone}`} key={project.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }} onClick={() => setSelectedProject(project)} aria-label={`View details for ${project.title}`}>
                 <span className="tag">{project.label}</span>
-                <div><h3>{project.title}</h3><p>{project.description}</p><small>{project.stack}</small></div>
-              </motion.article>
+                <div><h3>{project.title}</h3><p>{project.description}</p><small>{project.stack}</small><span className="view-project">Explore project <ArrowUpRight size={15} /></span></div>
+              </motion.button>
             ))}
           </div>
         </section>
@@ -99,6 +123,26 @@ export default function App() {
         </section>
         <footer>© 2026 Emiliano González Romo · Built to show the work behind the résumé.</footer>
       </main>
+
+      {selectedProject && (
+        <motion.div className="project-overlay" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setSelectedProject(null);
+        }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-title" initial={{ opacity: 0, y: 36, scale: .96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
+            <button className="modal-close" type="button" onClick={() => setSelectedProject(null)} aria-label="Close project details"><X /></button>
+            <span className="tag">{selectedProject.label}</span>
+            <h2 id="project-title">{selectedProject.title}</h2>
+            <p className="modal-intro">{selectedProject.description}</p>
+            <div className="detail-grid">
+              <div><span>Problem</span><p>{selectedProject.problem}</p></div>
+              <div><span>Solution</span><p>{selectedProject.solution}</p></div>
+            </div>
+            <div className="detail-block"><span>My contribution</span><p>{selectedProject.contribution}</p></div>
+            <div className="detail-block"><span>Key capabilities</span><ul>{selectedProject.highlights.map(item => <li key={item}>{item}</li>)}</ul></div>
+            <div className="modal-footer"><div><span>Status</span><strong>{selectedProject.status}</strong></div><small>{selectedProject.stack}</small></div>
+          </motion.section>
+        </motion.div>
+      )}
 
       <nav className="dock" aria-label="Portfolio navigation">
         <a href="#home" aria-label="Home"><Home /></a>
