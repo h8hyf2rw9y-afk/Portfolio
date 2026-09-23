@@ -37,8 +37,9 @@ export function CollapsibleSection({
           onClick={() => setOpen(value => !value)}
           aria-expanded={open}
           aria-controls={`${id}-content`}
+          aria-label={label}
+          title={label}
         >
-          <span>{label}</span>
           <ChevronDown className={open ? "rotated" : ""} />
         </button>
       </div>
