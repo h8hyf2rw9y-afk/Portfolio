@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Award, ChevronDown, ExternalLink } from "lucide-react";
 import { certificationText, certifications, type CertificationLanguage } from "../data/certifications";
+import { CollapsibleSection } from "./CollapsibleSection";
 
 type CertificationsSectionProps = { language: CertificationLanguage };
 
@@ -11,9 +12,7 @@ export function CertificationsSection({ language }: CertificationsSectionProps) 
   const visible = expanded ? certifications : certifications.filter(item => item.featured);
 
   return (
-    <section id="certifications">
-      <p className="kicker">{t.kicker}</p>
-      <h2>{t.title}</h2>
+    <CollapsibleSection id="certifications" kicker={t.kicker} title={t.title} language={language} defaultOpen={false}>
       <p className="body-copy certifications-intro">{t.intro}</p>
       <motion.div className="certification-grid" layout>
         <AnimatePresence initial={false}>
@@ -48,6 +47,6 @@ export function CertificationsSection({ language }: CertificationsSectionProps) 
         {expanded ? t.showLess : t.showAll}
         <ChevronDown className={expanded ? "rotated" : ""} />
       </button>
-    </section>
+    </CollapsibleSection>
   );
 }
