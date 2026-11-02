@@ -26,6 +26,18 @@ Target roles include:
 
 ## Selected work
 
+### Oniria
+
+An early-stage software studio and consultancy focused on turning operational problems into practical, maintainable digital products.
+
+- **My role:** Founder
+- **Model:** Software consulting and product development
+- **Focus:** discovery, workflow design, full-stack delivery, applied AI, security, and CI/CD
+- **First product:** PropPilot, a vertical SaaS for real-estate acquisition and property-flipping operations
+- **Stage:** Early development; positioning and service model are being validated
+
+Oniria is intentionally broader than one product. Its purpose is to help teams clarify how work happens, identify where software can create leverage, and carry solutions from requirements to deployment.
+
 ### PropPilot · StateAI
 
 An AI-first CRM built from real-estate operating workflows. It connects leads, properties, acquisition cases, appointments, opportunities, and controlled AI assistance through shared context.
@@ -44,6 +56,17 @@ A real-estate operations system developed around owners, buyers, documents, urge
 - **Contribution:** product definition, requirements, architecture, CRM development, operations, and team leadership
 - **Public presentation:** Sanitized case study only
 
+### Selected collaborative and earlier projects
+
+| Project | Context | Purpose | Repository |
+| --- | --- | --- | --- |
+| HackMTY · Capital One Challenge | 48-hour team hackathon | Financial-literacy and customer-engagement prototype | [View](https://github.com/EstebanAleman21/404_NOTFOUND) |
+| Dilo en Señas | Accessibility team project | Text-to-sign-language mobile experience | [View](https://github.com/AlonsoM207/Reto_Equipo1) |
+| FRIDA PDF Analyst | Document-intelligence team project | Upload and explore document analysis through structured views | [View](https://github.com/Spooderman0/pdf-reader) |
+| BabyDuck Compiler | Individual academic project | Compiler pipeline and custom virtual machine | [View](https://github.com/MasterZendika/BabyDuck-Compiler) |
+| Autonomous Harvest Simulation | Academic AI project | Autonomous-agent experimentation with Unity ML-Agents | [View](https://github.com/MasterZendika/REVISION) |
+| Raíces | Personal interactive story | Visual storytelling about dance, identity, and learning | [Live](https://raices-six.vercel.app/) · [Source](https://github.com/MasterZendika/raices) |
+
 ## What this repository demonstrates
 
 - Responsive interface design for desktop and mobile.
@@ -52,6 +75,12 @@ A real-estate operations system developed around owners, buyers, documents, urge
 - Motion and ambient visual effects with readable content.
 - Production deployment through GitHub Actions and GitHub Pages.
 - Privacy-first handling of contact and professional information.
+
+## Current learning and credentials
+
+Completed: **AI Fluency: Framework & Foundations** and **Claude Code 101** through Anthropic's Claude Academy.
+
+In progress: **Introduction to Model Context Protocol**, **Model Context Protocol: Advanced Topics**, **Introduction to Agent Skills**, and **Linux Foundations**. Coursework in progress is labeled clearly and is not presented as a completed credential.
 
 ## Technical stack
 
