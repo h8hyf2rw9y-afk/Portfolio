@@ -1,134 +1,175 @@
-# Emiliano González Romo — Portfolio
+# Emiliano González Romo — Engineering Portfolio
 
-[![Live portfolio](https://img.shields.io/badge/live%20site-open-6d5dfc)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
-[![Focus](https://img.shields.io/badge/focus-Forward%20Deployed%20%2F%20AI%20Solutions-0ea5e9)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
-[![Languages](https://img.shields.io/badge/languages-English%20%7C%20Español-24292f)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
+<p align="left">
+  <strong>A bilingual portfolio for Forward Deployed, AI Solutions, and customer-facing engineering roles.</strong>
+</p>
 
-A bilingual professional portfolio for customer-facing engineering roles at the intersection of **applied AI, full-stack systems, product delivery, and business operations**.
+[![Live site](https://img.shields.io/badge/live%20portfolio-open-6d5dfc)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
+[![Build](https://img.shields.io/badge/build-TypeScript%20%2B%20Vite-24292f)](https://github.com/h8hyf2rw9y-afk/Portfolio)
+[![Languages](https://img.shields.io/badge/content-English%20%7C%20Español-0ea5e9)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
+[![Deployment](https://img.shields.io/badge/deployment-GitHub%20Pages-10b981)](https://h8hyf2rw9y-afk.github.io/Portfolio/)
 
-## View the live site
+## Open the experience
 
-### [h8hyf2rw9y-afk.github.io/Portfolio](https://h8hyf2rw9y-afk.github.io/Portfolio/)
+### [h8hyf2rw9y-afk.github.io/Portfolio →](https://h8hyf2rw9y-afk.github.io/Portfolio/)
 
-The site presents selected projects and professional experience without exposing private repositories, credentials, client records, or personal contact information.
+This portfolio is designed for a short recruiter scan and a deeper technical review. It explains who I am, where I create value, what I have built, how I work with customers, and which engineering capabilities I am strengthening.
 
-## Positioning
+## Why this portfolio exists
 
-I am a Computer Science graduate who works close to users and operational teams: discovering problems, translating ambiguous workflows into requirements, and building practical software and AI-enabled systems.
+My work sits between **customers, product, and engineering**. A conventional project gallery did not explain that clearly enough.
 
-Target roles include:
+The site therefore presents projects as operating stories:
 
-- Forward Deployed Engineer
-- AI Solutions Engineer
-- Applied AI Engineer
-- Technical Solutions Engineer
-- Customer-facing Software Engineer
+1. What problem existed?
+2. Who experienced it?
+3. What system was built?
+4. What did I own?
+5. Which technical decisions made the solution reliable?
+6. What happened after deployment?
 
-## Selected work
+The central example is **PropPilot**, Oniria's real-estate operations product. It originated from workflows I observed inside Crestify, is now operating in that company, and is being prepared for expansion to additional real-estate businesses.
 
-### Oniria
+## Experience architecture
 
-An early-stage software studio and consultancy focused on turning operational problems into practical, maintainable digital products.
+```mermaid
+flowchart TD
+    H[Recruiter or client] --> A[About]
+    A --> V[Where I create value]
+    V --> E[Experience]
+    E --> P[Project case studies]
+    P --> G[Growth and credentials]
+    G --> C[Privacy-conscious contact]
+```
 
-- **My role:** Founder
-- **Model:** Software consulting and product development
-- **Focus:** discovery, workflow design, full-stack delivery, applied AI, security, and CI/CD
-- **First product:** PropPilot, a vertical platform for real-estate acquisition and property-flipping operations
-- **Stage:** PropPilot is operating inside Crestify; expansion and repeatable onboarding for additional companies are in preparation
-
-Oniria is intentionally broader than one product. Its purpose is to help teams clarify how work happens, identify where software can create leverage, and carry solutions from requirements to deployment.
-
-### PropPilot · Oniria
-
-An AI-first operations platform built from real-estate workflows observed inside Crestify. It connects contacts, properties, acquisition cases, debts, offers, appointments, opportunities, and controlled AI assistance through shared context.
-
-- **Project type:** Oniria product · Founder and lead engineer
-- **Operational status:** Working inside one real-estate company
-- **Public evidence:** [Product and engineering case study](https://github.com/h8hyf2rw9y-afk/StateAI-Overview)
-- **Source:** Private
-- **Core stack:** Next.js, TypeScript, FastAPI, PostgreSQL, Supabase
-- **Engineering themes:** domain modeling, REST APIs, authentication, testing, CI/CD, privacy-aware AI
-
-### Crestify
-
-A real-estate operations system developed around owners, buyers, documents, urgent follow-up, property visits, and closings.
-
-- **Project type:** Lead project / professional product work
-- **Contribution:** product definition, requirements, architecture, CRM development, operations, and team leadership
-- **Public presentation:** Sanitized case study only
-
-### Selected collaborative and earlier projects
-
-| Project | Context | Purpose | Repository |
-| --- | --- | --- | --- |
-| HackMTY · Capital One Challenge | 48-hour team hackathon | Financial-literacy and customer-engagement prototype | [View](https://github.com/EstebanAleman21/404_NOTFOUND) |
-| Dilo en Señas | Accessibility team project | Text-to-sign-language mobile experience | [View](https://github.com/AlonsoM207/Reto_Equipo1) |
-| FRIDA PDF Analyst | Document-intelligence team project | Upload and explore document analysis through structured views | [View](https://github.com/Spooderman0/pdf-reader) |
-| BabyDuck Compiler | Individual academic project | Compiler pipeline and custom virtual machine | [View](https://github.com/MasterZendika/BabyDuck-Compiler) |
-| Autonomous Harvest Simulation | Academic AI project | Autonomous-agent experimentation with Unity ML-Agents | [View](https://github.com/MasterZendika/REVISION) |
-| Raíces | Personal interactive story | Visual storytelling about dance, identity, and learning | [Live](https://raices-six.vercel.app/) · [Source](https://github.com/MasterZendika/raices) |
-
-## What this repository demonstrates
-
-- Responsive interface design for desktop and mobile.
-- English and Spanish content.
-- Expandable project and experience case studies.
-- Motion and ambient visual effects with readable content.
-- Production deployment through GitHub Actions and GitHub Pages.
-- Privacy-first handling of contact and professional information.
-
-## Current learning and credentials
-
-Completed: **AI Fluency: Framework & Foundations** and **Claude Code 101** through Anthropic's Claude Academy.
-
-In progress: **Introduction to Model Context Protocol**, **Model Context Protocol: Advanced Topics**, **Introduction to Agent Skills**, and **Linux Foundations**. Coursework in progress is labeled clearly and is not presented as a completed credential.
-
-## Technical stack
-
-| Area | Technologies |
+| Section | Purpose |
 | --- | --- |
-| Application | React, TypeScript, Vite |
-| Interface | CSS, Motion, Lucide |
-| Delivery | GitHub Actions, GitHub Pages |
-| Security | masked contact information, environment-file exclusions, content security policy |
+| About | Establish the customer-to-production story in under 120 words |
+| Where I create value | Explain customer discovery, end-to-end engineering, and controlled AI |
+| Experience | Connect commercial, operational, and engineering work |
+| Selected work | Present real projects with context, contribution, stack, and status |
+| What I'm leveling up | Show disciplined growth without hiding current boundaries |
+| Credentials | Separate completed programs from coursework in progress |
+
+## Featured engineering story — PropPilot
+
+PropPilot is a working platform for real-estate acquisition and property-flipping operations. It organizes contacts, properties, acquisition cases, debts, offers, tasks, appointments, and controlled AI assistance.
+
+**My ownership**
+
+- Customer and workflow discovery
+- Product definition and domain modeling
+- Next.js and TypeScript frontend
+- FastAPI API and service architecture
+- PostgreSQL persistence with SQLAlchemy
+- Alembic database migrations
+- Supabase authentication and JWT access
+- Pydantic validation
+- Automated testing and CI/CD
+- LLM field allowlists and human confirmation
+
+[Open PropPilot →](https://state-ai-frontend.vercel.app/)  
+[Read the engineering case study →](https://github.com/h8hyf2rw9y-afk/StateAI-Overview)
+
+## Frontend architecture
+
+```mermaid
+flowchart LR
+    DATA[Bilingual content] --> UI[React components]
+    UI --> MOTION[Motion interactions]
+    UI --> CSS[Responsive visual system]
+    MOTION --> BUILD[Vite production build]
+    CSS --> BUILD
+    BUILD --> PAGES[GitHub Pages]
+```
+
+| Layer | Implementation |
+| --- | --- |
+| Application | React 19, TypeScript, Vite |
+| Interaction | Motion and accessible disclosure patterns |
+| Icons | Lucide React |
+| Content | Typed English and Spanish project, experience, and credential data |
+| Styling | Responsive CSS, theme variables, reduced-motion support |
+| Delivery | GitHub Actions and GitHub Pages |
+
+## Product and interface decisions
+
+### Recruiter-first information hierarchy
+
+The most relevant information appears before detailed tools or credentials: positioning, value, experience, and verified work.
+
+### Progressive disclosure
+
+Experience, projects, capabilities, learning, and credentials can expand when a visitor wants more detail. This keeps the first scan concise without removing technical depth.
+
+### Bilingual by design
+
+English and Spanish content share typed data structures rather than separate pages. The selected language persists locally.
+
+### Motion with boundaries
+
+Animations support hierarchy and transitions. The site honors reduced-motion preferences and keeps the primary content readable without animation.
+
+### Privacy-conscious presentation
+
+- Personal contact information is masked in the client.
+- No private client records, credentials, prompts, or proprietary source code are published.
+- Private products use sanitized case studies.
+- Collaborative, academic, and individually owned projects are labeled separately.
+- External links open with safe relationship attributes.
+
+## Selected work represented
+
+| Project | Context | What it demonstrates |
+| --- | --- | --- |
+| PropPilot | Oniria product operating inside Crestify | Discovery-to-production ownership, full-stack architecture, applied AI, security |
+| Crestify | Professional real-estate operations | Domain expertise, product thinking, sales and operational leadership |
+| HackMTY · Capital One | 48-hour Monterrey hackathon | Rapid prototyping and team delivery |
+| Dilo en Señas | Collaborative accessibility system | React Native, API integration, inclusive design |
+| FRIDA PDF Analyst | Collaborative document-intelligence system | File workflows, authentication, structured analysis UI |
+| BabyDuck Compiler | Individual academic project | Parsing, semantic analysis, intermediate representation, virtual machine |
+| Autonomous Harvest Simulation | Academic AI project | Agent modeling, reward design, Unity ML-Agents |
+| Raíces | Personal interactive story | Visual storytelling, responsive design, accessible motion |
+
+Some earlier collaborative repositories are hosted by former teammates or on a secondary account. The portfolio identifies the context and my contribution rather than claiming sole ownership.
 
 ## Local development
 
-Requirements: Node.js 20.19+.
+Requires Node.js 20.19 or newer.
 
 ```bash
-git pull origin main
+git clone https://github.com/h8hyf2rw9y-afk/Portfolio.git
+cd Portfolio
 npm install
 npm run dev
 ```
 
-## Production build
+## Verification
 
 ```bash
 npm run build
-npm run preview
+npm run audit
 ```
 
-The deployment workflow builds the application from `main` and publishes the generated static assets to GitHub Pages.
+The production build runs TypeScript checks before Vite generates the deployable assets.
 
-## Privacy rules
+## Repository structure
 
-- Never commit personal email addresses, phone numbers, home addresses, private client data, credentials, or API keys.
-- Keep real contact destinations in server-side configuration.
-- Present private projects as sanitized case studies.
-- Clearly distinguish independent work, lead projects, team contributions, and professional case studies.
-- Do not publish employer or client source code without explicit authorization.
+```text
+src/
+├── components/       Reusable interface and interaction components
+├── data/             Typed projects, experience, and credentials
+├── App.tsx           Page composition and modal behavior
+└── styles.css        Responsive visual system and themes
+```
 
-## GitHub accounts
+## Public links
 
-- [Primary professional profile](https://github.com/h8hyf2rw9y-afk)
-- [Secondary / earlier work](https://github.com/MasterZendika)
-
-## Contact
-
-- [LinkedIn](https://www.linkedin.com/in/emiliano-gonzalez-tech/)
 - [Live portfolio](https://h8hyf2rw9y-afk.github.io/Portfolio/)
+- [Primary GitHub profile](https://github.com/h8hyf2rw9y-afk)
+- [PropPilot engineering case study](https://github.com/h8hyf2rw9y-afk/StateAI-Overview)
+- [LinkedIn](https://www.linkedin.com/in/emiliano-gonzalez-tech/)
 
 ---
 
-Built to show the work behind the résumé: customer context, technical decisions, implementation, and outcomes.
+Built to show the work behind the résumé: the customer context, technical decisions, implementation, and outcome.
