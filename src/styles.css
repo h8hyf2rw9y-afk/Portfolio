@@ -250,3 +250,9 @@ html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--accent) 72%,va
 .section-collapse-button svg.rotated{transform:rotate(180deg)}
 .section-content{overflow:hidden;padding-top:30px}
 @media(max-width:650px){.section-heading{align-items:center}.section-collapse-button{width:40px;height:40px;margin-top:0}.section-content{padding-top:24px}}
+
+
+/* Verified project destinations */
+.project-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.project-links .button{width:auto}
+@media(max-width:520px){.project-links{flex-direction:column}.project-links .button{width:100%}}
