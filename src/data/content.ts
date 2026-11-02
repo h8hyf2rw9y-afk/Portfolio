@@ -4,6 +4,7 @@ export type Project = {
   label: Localized; title: string; description: Localized; inspiration: Localized;
   stack: string; tone: "violet" | "cyan"; problem: Localized; solution: Localized;
   contribution: Localized; highlights: { en: string[]; es: string[] }; status: Localized;
+  repositoryUrl?: string; liveUrl?: string;
 };
 const l = (en: string, es: string): Localized => ({ en, es });
 
@@ -30,29 +31,97 @@ export const projects: Project[] = [
     highlights:{en:["Lead organization","Urgent follow-up","Task tracking","Document control","Closing pipeline"],es:["Organización de prospectos","Seguimiento urgente","Control de tareas","Control documental","Pipeline de cierres"]},
     status:l("Operational case study","Caso de estudio operativo")
   },
-  ...[
-    ["Lead Signal","Señales de prospectos","A qualification workspace that turns inbound signals into a prioritized queue.","Un espacio de calificación que convierte señales entrantes en una fila priorizada.","Deciding which lead deserves attention first.","Decidir qué prospecto merece atención primero.","Lead scoring · CRM workflows","A consistent way to identify urgency was missing.","Faltaba una forma consistente de identificar urgencia.","An explainable priority and next-action queue.","Una fila explicable de prioridad y próxima acción."],
-    ["Showing Brief","Resumen de visita","A mobile property briefing with essential client and property context.","Un resumen móvil con el contexto esencial del cliente y la propiedad.","Preparing quickly between property appointments.","Prepararse rápidamente entre citas de propiedades.","Mobile UX · Property data","Requirements and details were scattered before showings.","Los requisitos y detalles estaban dispersos antes de las visitas.","A concise brief with facts, questions, and objectives.","Un resumen conciso con datos, preguntas y objetivos."],
-    ["Pipeline Pulse","Pulso del pipeline","A weekly view of stalled opportunities, overdue actions, and movement.","Una vista semanal de oportunidades detenidas, acciones vencidas y movimiento.","Understanding pipeline health without opening every record.","Entender la salud del pipeline sin abrir cada registro.","Analytics · Sales operations","Totals hid where work was becoming stuck.","Los totales ocultaban dónde se detenía el trabajo.","A view connecting movement, inactivity, risk, and actions.","Una vista que conecta movimiento, inactividad, riesgo y acciones."],
-    ["Client Handoff","Entrega de cliente","A structured handoff between sales, implementation, and support.","Una entrega estructurada entre ventas, implementación y soporte.","Preventing customer expectations from disappearing between teams.","Evitar que las expectativas del cliente se pierdan entre equipos.","Customer operations · Automation","Teams repeated discovery and lost commitments.","Los equipos repetían el descubrimiento y perdían compromisos.","A shared record of goals, decisions, risks, and owners.","Un registro compartido de objetivos, decisiones, riesgos y responsables."],
-    ["Deal Room","Sala de operación","A secure checklist and document workspace for transaction closing.","Un espacio seguro de listas y documentos para el cierre de operaciones.","Coordinating people, files, dates, and decisions in a closing.","Coordinar personas, archivos, fechas y decisiones en un cierre.","Documents · Task coordination","Closing work was disconnected across messages and folders.","El trabajo de cierre estaba desconectado entre mensajes y carpetas.","One checklist showing what is complete, blocked, and owned.","Una lista que muestra qué está completo, bloqueado y asignado."],
-    ["Market Lens","Perspectiva de mercado","A comparative property analysis that explains pricing decisions.","Un análisis comparativo que explica decisiones de precio.","Turning market information into a clear client recommendation.","Convertir información de mercado en una recomendación clara.","Data visualization · CMA","Comparable data overwhelmed clients without a narrative.","Los comparables abrumaban al cliente sin una narrativa.","A guided comparison of evidence and pricing scenarios.","Una comparación guiada de evidencia y escenarios de precio."],
-    ["Follow-up Studio","Estudio de seguimiento","A human-controlled assistant for contextual follow-up drafts.","Un asistente bajo control humano para redactar seguimientos con contexto.","Saving time without making messages feel generic.","Ahorrar tiempo sin hacer que los mensajes se sientan genéricos.","Applied AI · Messaging","Generic automation lacked context and trust.","La automatización genérica carecía de contexto y confianza.","Context-aware drafts reviewed by the advisor.","Borradores con contexto revisados por el asesor."],
-    ["Workday Score","Puntaje diario","A dashboard balancing focused work, clients, learning, and wellbeing.","Un tablero que equilibra trabajo enfocado, clientes, aprendizaje y bienestar.","Measuring progress without treating every day as identical.","Medir progreso sin tratar todos los días como idénticos.","Personal analytics · Habit systems","Rigid systems punished necessary schedule changes.","Los sistemas rígidos castigaban cambios necesarios.","Flexible scores, area streaks, and weekly reflection.","Puntajes flexibles, rachas por área y reflexión semanal."]
-  ].map(([title,titleEs,desc,descEs,insp,inspEs,stack,problem,problemEs,solution,solutionEs], index): Project => ({
-    label:l("Layout demo · Concept","Demo de diseño · Concepto"), title,
-    description:l(desc,descEs), inspiration:l(insp,inspEs), stack,
-    tone:index % 2 === 0 ? "violet" : "cyan",
-    problem:l(problem,problemEs), solution:l(solution,solutionEs),
-    contribution:l("Concept definition, workflow mapping, and experience design.","Definición del concepto, mapeo del flujo y diseño de experiencia."),
-    highlights:{en:["Workflow concept","Information design","User context","Clear next actions","Responsive experience"],es:["Concepto de flujo","Diseño de información","Contexto del usuario","Próximas acciones claras","Experiencia adaptable"]},
-    status:l("Layout demonstration","Demostración de diseño")
-  }))
+  {
+    label:l("Hackathon · Team project","Hackathon · Proyecto en equipo"), title:"HackMTY · Capital One Challenge",
+    description:l("A financial-literacy and customer-engagement prototype delivered during HackMTY 2023 for the Capital One challenge.","Un prototipo de educación financiera y engagement creado durante HackMTY 2023 para el reto de Capital One."),
+    inspiration:l("The challenge was to turn an open financial-services brief into a useful product under a 48-hour deadline.","El reto fue convertir un brief abierto de servicios financieros en un producto útil en menos de 48 horas."),
+    stack:"T3 Stack · Next.js · TypeScript · Tailwind CSS · API integration", tone:"violet",
+    problem:l("Financial information can feel fragmented and difficult for customers to understand or act on.","La información financiera puede sentirse fragmentada y difícil de entender o aprovechar."),
+    solution:l("A web prototype designed to make financial interactions clearer and more engaging.","Un prototipo web diseñado para hacer las interacciones financieras más claras y atractivas."),
+    contribution:l("Frontend development, interaction design, and integration work within a time-constrained team environment.","Desarrollo frontend, diseño de interacción y trabajo de integración dentro de un equipo con tiempo limitado."),
+    highlights:{en:["48-hour delivery","Team collaboration","API-driven product","Rapid prototyping","Financial-services challenge"],es:["Entrega en 48 horas","Colaboración en equipo","Producto conectado a APIs","Prototipado rápido","Reto de servicios financieros"]},
+    status:l("Completed team project","Proyecto colaborativo finalizado"),
+    repositoryUrl:"https://github.com/EstebanAleman21/404_NOTFOUND"
+  },
+  {
+    label:l("Accessibility · Team project","Accesibilidad · Proyecto en equipo"), title:"Dilo en Señas",
+    description:l("A cross-platform mobile experience designed to support communication with the deaf community through text-to-sign-language translation.","Una experiencia móvil multiplataforma diseñada para apoyar la comunicación con la comunidad sorda mediante traducción de texto a lengua de señas."),
+    inspiration:l("Accessible software can remove everyday communication barriers when it is designed around the people who need it.","El software accesible puede reducir barreras cotidianas cuando se diseña alrededor de las personas que lo necesitan."),
+    stack:"React Native · Mobile UI · API integration · Accessibility", tone:"cyan",
+    problem:l("Everyday communication can exclude deaf users when information is available only as written or spoken language.","La comunicación cotidiana puede excluir a personas sordas cuando la información existe únicamente de forma escrita o hablada."),
+    solution:l("A mobile interface that translates text into sign-language content through an accessible workflow.","Una interfaz móvil que convierte texto en contenido de lengua de señas mediante un flujo accesible."),
+    contribution:l("Accessible UI development, API integration, and a focus on clear, security-conscious interaction design.","Desarrollo de UI accesible, integración de APIs y enfoque en una experiencia clara y consciente de la seguridad."),
+    highlights:{en:["Inclusive product thinking","React Native UI","Real-time interaction","API integration","Accessibility principles"],es:["Diseño inclusivo","UI con React Native","Interacción en tiempo real","Integración de APIs","Principios de accesibilidad"]},
+    status:l("Completed team project","Proyecto colaborativo finalizado"),
+    repositoryUrl:"https://github.com/AlonsoM207/Reto_Equipo1"
+  },
+  {
+    label:l("Document intelligence · Team project","Inteligencia documental · Proyecto en equipo"), title:"FRIDA PDF Analyst",
+    description:l("A React interface for uploading and analyzing documents through summaries, indexes, figures, word frequency, and related terms.","Una interfaz React para subir y analizar documentos mediante resúmenes, índices, figuras, frecuencia de palabras y términos relacionados."),
+    inspiration:l("Long documents become easier to explore when analysis is divided into focused, navigable views.","Los documentos extensos son más fáciles de explorar cuando el análisis se divide en vistas claras y navegables."),
+    stack:"React · Tailwind CSS · REST APIs · Firebase · Authentication", tone:"violet",
+    problem:l("Reviewing long documents manually makes it difficult to locate structure, patterns, and relevant information quickly.","Revisar documentos largos manualmente dificulta encontrar estructura, patrones e información relevante con rapidez."),
+    solution:l("A multi-step document-analysis workflow that organizes extracted insights into dedicated views.","Un flujo de análisis documental que organiza los resultados extraídos en vistas especializadas."),
+    contribution:l("Frontend workflow design for file upload, analysis navigation, authentication, and structured result presentation.","Diseño del flujo frontend para carga de archivos, navegación del análisis, autenticación y presentación estructurada de resultados."),
+    highlights:{en:["File-upload UX","Analysis dashboard","Authentication flows","API-connected interface","Structured results"],es:["UX de carga de archivos","Dashboard de análisis","Flujos de autenticación","Interfaz conectada a APIs","Resultados estructurados"]},
+    status:l("Completed team project","Proyecto colaborativo finalizado"),
+    repositoryUrl:"https://github.com/Spooderman0/pdf-reader"
+  },
+  {
+    label:l("Compiler · Academic project","Compilador · Proyecto académico"), title:"BabyDuck Compiler",
+    description:l("A multi-stage compiler covering parsing, semantic validation, intermediate code, virtual memory, and execution through a custom virtual machine.","Un compilador multietapa con parsing, validación semántica, código intermedio, memoria virtual y ejecución mediante una máquina virtual propia."),
+    inspiration:l("Building a language from grammar to execution was a way to understand what happens beneath application code.","Construir un lenguaje desde su gramática hasta su ejecución fue una forma de comprender lo que ocurre debajo del código de aplicación."),
+    stack:"Java · Maven · ANTLR4 · Virtual machine", tone:"cyan",
+    problem:l("A programming language needs a reliable path from source text to validated, executable instructions.","Un lenguaje necesita una ruta confiable desde el código fuente hasta instrucciones validadas y ejecutables."),
+    solution:l("A compiler pipeline with lexical, syntactic, and semantic analysis, quadruple generation, memory management, and virtual execution.","Un pipeline con análisis léxico, sintáctico y semántico, generación de cuádruplos, memoria y ejecución virtual."),
+    contribution:l("Individual implementation of the compiler architecture, validation stages, intermediate representation, and virtual machine.","Implementación individual de la arquitectura, etapas de validación, representación intermedia y máquina virtual."),
+    highlights:{en:["Language grammar","Semantic analysis","Intermediate representation","Virtual memory","Custom VM"],es:["Gramática de lenguaje","Análisis semántico","Representación intermedia","Memoria virtual","Máquina virtual propia"]},
+    status:l("Completed academic project","Proyecto académico finalizado"),
+    repositoryUrl:"https://github.com/MasterZendika/BabyDuck-Compiler"
+  },
+  {
+    label:l("AI simulation · Academic project","Simulación de IA · Proyecto académico"), title:"Autonomous Harvest Simulation",
+    description:l("A 2D agricultural simulation exploring autonomous tractor agents for corn harvesting with Unity ML-Agents.","Una simulación agrícola 2D que explora agentes autónomos para cosecha de maíz con Unity ML-Agents."),
+    inspiration:l("Simulation makes it possible to study autonomous behavior, rewards, and failure safely before considering real environments.","La simulación permite estudiar comportamiento autónomo, recompensas y fallos antes de pensar en entornos reales."),
+    stack:"Unity · C# · Python · ML-Agents", tone:"violet",
+    problem:l("Autonomous harvesting behavior is expensive and risky to test directly in a physical environment.","El comportamiento autónomo de cosecha es costoso y riesgoso de probar directamente en un entorno físico."),
+    solution:l("A controlled simulation for modeling the agent, environment, objectives, and reward-driven behavior.","Una simulación controlada para modelar agente, entorno, objetivos y comportamiento basado en recompensas."),
+    contribution:l("Agent/environment modeling, simulation design, experimentation, and integration between Unity and the ML workflow.","Modelado de agente y entorno, diseño de simulación, experimentación e integración entre Unity y el flujo de ML."),
+    highlights:{en:["Agent modeling","Reward design","Simulation","Unity/Python workflow","Experimentation"],es:["Modelado de agentes","Diseño de recompensas","Simulación","Flujo Unity/Python","Experimentación"]},
+    status:l("Completed academic project","Proyecto académico finalizado"),
+    repositoryUrl:"https://github.com/MasterZendika/REVISION"
+  },
+  {
+    label:l("Interactive storytelling · Personal project","Narrativa interactiva · Proyecto personal"), title:"Raíces",
+    description:l("An interactive visual story about dance, identity, learning, and the idea that art is the anthology of a life.","Una historia visual e interactiva sobre danza, identidad, aprendizaje y la idea de que el arte es la antología de una vida."),
+    inspiration:l("Ten years of dance taught me that art is not only the stage; it is every rehearsal, mistake, relationship, and lesson along the way.","Diez años de danza me enseñaron que el arte no es solo el escenario; también es cada ensayo, error, vínculo y aprendizaje del camino."),
+    stack:"HTML · CSS · JavaScript · Vercel", tone:"cyan",
+    problem:l("A personal artistic journey can lose its emotional meaning when reduced to a static gallery.","Una trayectoria artística puede perder su significado emocional cuando se reduce a una galería estática."),
+    solution:l("A cinematic, responsive narrative combining chapters, photography, motion, audio, and visitor reflection.","Una narrativa cinematográfica y adaptable que combina capítulos, fotografía, movimiento, audio y reflexión del visitante."),
+    contribution:l("Story structure, interaction design, responsive implementation, gallery behavior, narration, and privacy-conscious visitor messaging.","Estructura narrativa, diseño de interacción, implementación responsive, galería, narración y mensajes de visitantes con privacidad."),
+    highlights:{en:["Visual storytelling","Responsive design","Accessible motion","Interactive gallery","Privacy-conscious form"],es:["Narrativa visual","Diseño responsive","Movimiento accesible","Galería interactiva","Formulario con privacidad"]},
+    status:l("Published personal project","Proyecto personal publicado"),
+    repositoryUrl:"https://github.com/MasterZendika/raices",
+    liveUrl:"https://raices-six.vercel.app/"
+  }
 ];
 
 export type Experience = { company: string; period: Localized; role: Localized; meta: Localized; summary: Localized; overview: Localized; responsibilities: { en: string[]; es: string[] }; tools: string; };
 
 export const experiences: Experience[] = [
+  {
+    company:"Oniria",
+    period:l("2026 — Present","2026 — actualidad"),
+    role:l("Founder","Fundador"),
+    meta:l("Independent software studio · Monterrey, Mexico","Estudio de software independiente · Monterrey, México"),
+    summary:l("Building an early-stage software consultancy that turns operational problems into useful digital products.","Construyendo una consultoría de software en etapa inicial que convierte problemas operativos en productos digitales útiles."),
+    overview:l("Oniria is an emerging software studio focused on helping teams clarify operational problems, design practical systems, and deliver maintainable web, mobile, data, and AI-enabled solutions. PropPilot is its first vertical product and proving ground.","Oniria es un estudio de software emergente enfocado en ayudar a equipos a entender problemas operativos, diseñar sistemas prácticos y entregar soluciones web, móviles, de datos y con IA que sean mantenibles. PropPilot es su primer producto vertical y campo de validación."),
+    responsibilities:{
+      en:["Define the studio's positioning, service model, and product direction around software that solves real operating problems.","Lead discovery, product definition, architecture, implementation, and delivery for early projects.","Develop PropPilot as Oniria's first vertical SaaS product for real-estate acquisition and property-flipping operations.","Establish security, privacy, documentation, testing, and human-control principles for AI-enabled systems."],
+      es:["Definir el posicionamiento, modelo de servicio y dirección de producto alrededor de software que resuelve problemas operativos reales.","Liderar descubrimiento, definición de producto, arquitectura, implementación y entrega de los primeros proyectos.","Desarrollar PropPilot como el primer producto SaaS vertical de Oniria para adquisición y flipping inmobiliario.","Establecer principios de seguridad, privacidad, documentación, pruebas y control humano para sistemas con IA."]
+    },
+    tools:"Product discovery · Software consulting · Full-stack delivery · Applied AI · Security · CI/CD"
+  },
   {
     company:"Crestify",
     period:l("Feb 2025 — Present","feb. 2025 — actualidad"),
