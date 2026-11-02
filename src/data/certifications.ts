@@ -15,6 +15,51 @@ const l = (en: string, es: string): Localized => ({ en, es });
 
 export const certifications: Certification[] = [
   {
+    title:l("AI Fluency: Framework & Foundations","AI Fluency: Framework & Foundations"),
+    issuer:"Anthropic · Claude Academy",
+    issued:l("Completed · 2026","Completado · 2026"),
+    type:l("Applied AI","IA aplicada"),
+    description:l("A practical framework for collaborating with AI through delegation, description, discernment, and diligence.","Un marco práctico para colaborar con IA mediante delegación, descripción, discernimiento y diligencia."),
+    credentialUrl:"https://academy.claude.com/badges/4311dde6-41d0-4019-84db-a350421ad75c",
+    featured:true
+  },
+  {
+    title:l("Claude Code 101","Claude Code 101"),
+    issuer:"Anthropic · Claude Academy",
+    issued:l("Completed · 2026","Completado · 2026"),
+    type:l("AI-assisted engineering","Ingeniería asistida por IA"),
+    description:l("Foundations for using Claude Code in repository-aware development, implementation, debugging, and iterative engineering workflows.","Fundamentos para usar Claude Code en desarrollo con contexto de repositorio, implementación, debugging y flujos iterativos."),
+    featured:true
+  },
+  {
+    title:l("Introduction to Model Context Protocol","Introducción a Model Context Protocol"),
+    issuer:"Anthropic · Claude Academy",
+    issued:l("In progress · 2026","En progreso · 2026"),
+    type:l("AI systems coursework","Formación en sistemas de IA"),
+    description:l("Core MCP concepts for connecting AI applications with tools, data sources, and structured capabilities.","Conceptos centrales de MCP para conectar aplicaciones de IA con herramientas, fuentes de datos y capacidades estructuradas.")
+  },
+  {
+    title:l("Model Context Protocol: Advanced Topics","Model Context Protocol: Temas avanzados"),
+    issuer:"Anthropic · Claude Academy",
+    issued:l("In progress · 2026","En progreso · 2026"),
+    type:l("AI systems coursework","Formación en sistemas de IA"),
+    description:l("Advanced patterns for designing, securing, and operating richer MCP-based integrations.","Patrones avanzados para diseñar, proteger y operar integraciones basadas en MCP.")
+  },
+  {
+    title:l("Introduction to Agent Skills","Introducción a Agent Skills"),
+    issuer:"Anthropic · Claude Academy",
+    issued:l("In progress · 2026","En progreso · 2026"),
+    type:l("Agentic systems coursework","Formación en sistemas agénticos"),
+    description:l("Foundations for packaging repeatable instructions, resources, and workflows that extend AI-agent capabilities.","Fundamentos para empaquetar instrucciones, recursos y flujos repetibles que amplían capacidades de agentes de IA.")
+  },
+  {
+    title:l("Linux Foundations","Fundamentos de Linux"),
+    issuer:"The Linux Foundation · Coursework",
+    issued:l("In progress · 2026","En progreso · 2026"),
+    type:l("Systems coursework","Formación en sistemas"),
+    description:l("Linux command line, filesystems, permissions, processes, networking, and open-source operating-system fundamentals.","Línea de comandos, sistemas de archivos, permisos, procesos, redes y fundamentos de sistemas operativos open source.")
+  },
+  {
     title:l("McKinsey Forward Program","Programa McKinsey Forward"),
     issuer:"McKinsey & Company",
     issued:l("December 2025","Diciembre 2025"),
