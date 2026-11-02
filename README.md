@@ -33,16 +33,17 @@ An early-stage software studio and consultancy focused on turning operational pr
 - **My role:** Founder
 - **Model:** Software consulting and product development
 - **Focus:** discovery, workflow design, full-stack delivery, applied AI, security, and CI/CD
-- **First product:** PropPilot, a vertical SaaS for real-estate acquisition and property-flipping operations
-- **Stage:** Early development; positioning and service model are being validated
+- **First product:** PropPilot, a vertical platform for real-estate acquisition and property-flipping operations
+- **Stage:** PropPilot is operating inside Crestify; expansion and repeatable onboarding for additional companies are in preparation
 
 Oniria is intentionally broader than one product. Its purpose is to help teams clarify how work happens, identify where software can create leverage, and carry solutions from requirements to deployment.
 
-### PropPilot · StateAI
+### PropPilot · Oniria
 
-An AI-first CRM built from real-estate operating workflows. It connects leads, properties, acquisition cases, appointments, opportunities, and controlled AI assistance through shared context.
+An AI-first operations platform built from real-estate workflows observed inside Crestify. It connects contacts, properties, acquisition cases, debts, offers, appointments, opportunities, and controlled AI assistance through shared context.
 
-- **Project type:** Independent / lead project
+- **Project type:** Oniria product · Founder and lead engineer
+- **Operational status:** Working inside one real-estate company
 - **Public evidence:** [Product and engineering case study](https://github.com/h8hyf2rw9y-afk/StateAI-Overview)
 - **Source:** Private
 - **Core stack:** Next.js, TypeScript, FastAPI, PostgreSQL, Supabase
